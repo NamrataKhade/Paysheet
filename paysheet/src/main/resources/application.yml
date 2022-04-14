@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/paysheet-dev
+      client: mongodb://localhost:27017
+      database: paysheet-dev
+
+jwt:
+ jwtSecret: intellidocsSecretKey
+ jwtExpirationMs: 36000000
