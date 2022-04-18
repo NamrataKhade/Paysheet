@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.nts.model.dto.EmployeeDto;
 import com.nts.model.entity.Employee;
 import com.nts.model.response.EmployeeResponse;
 import com.nts.repository.EmployeeRepository;
@@ -29,6 +30,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		EmployeeResponse employeeResponse =  new EmployeeResponse();
 		employee.setFirstName(employee.getFirstName());
 		employeeRepository.save(employee);
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setEmpId(employee.getEmpId());
+		employeeDto.setFirstName(employee.getFirstName());
+		employeeDto.setMiddleName(employee.getMiddleName());
+		employeeDto.setLastName(employee.getLastName());
+		employeeDto.setGender(employee.getGender());
+		employeeDto.setEmail(employee.getEmail());
+		employeeDto.setStatus(employee.getStatus());
+		employeeDto.setDob(employee.getDob());
+		employeeDto.setDoj(employee.getDoj());
+		employeeDto.setReportingManager(employee.getReportingManager());
+		employeeResponse.setEmployeeDto(employeeDto);
 		return employeeResponse;
 
 	}
