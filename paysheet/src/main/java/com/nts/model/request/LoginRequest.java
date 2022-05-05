@@ -13,4 +13,9 @@ public class LoginRequest {
 	
 	@NotEmpty(message = "password must not be empty")
 	private String password;
+
+	
+	
+	
+	
 }

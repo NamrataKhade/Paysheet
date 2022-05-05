@@ -8,4 +8,13 @@ import lombok.Data;
 public class EmployeeResponse {
 
 	private EmployeeDto employeeDto;
+
+	public EmployeeDto getEmployeeDto() {
+		return employeeDto;
+	}
+
+	public void setEmployeeDto(EmployeeDto employeeDto) {
+		this.employeeDto = employeeDto;
+	}
+
 }

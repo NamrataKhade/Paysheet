@@ -15,11 +15,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nts.model.entity.Employee;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+
+
+
 @Getter
 @Setter
+
 public class EmployeeDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
