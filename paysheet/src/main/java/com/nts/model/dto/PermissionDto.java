@@ -11,6 +11,6 @@ private String perId;
 	
 	private String name;
 	
-	private String status;
+	private boolean status=false;
 
 }

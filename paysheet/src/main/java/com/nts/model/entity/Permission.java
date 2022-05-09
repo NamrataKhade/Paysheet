@@ -5,8 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
+
 @Data
 @Document
+
 public class Permission {
 
 	@Id
@@ -16,6 +18,6 @@ public class Permission {
 
 	private String name;
 
-	private String status;
+	private boolean status = false;
 
 }

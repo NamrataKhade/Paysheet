@@ -1,10 +1,10 @@
 package com.nts.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.entity.Permission;
-import com.nts.model.response.EmployeeResponse;
-import com.nts.model.response.PermissionResponce;
+import com.nts.model.response.ApiResponce;
 import com.nts.service.PermissionService;
 import com.nts.validatorgroups.OnCreate;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -33,6 +31,8 @@ public class PermissionController {
 	@Autowired
 	private PermissionService permissionService;
 
+//	******************************* CREATE PERMISSION *********************
+	
 	@PostMapping()
 	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
@@ -40,46 +40,50 @@ public class PermissionController {
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@Validated(OnCreate.class)
-	public PermissionResponce createPermission(@RequestBody Permission permission) {
-		return permissionService.createPermission(permission);
+	public ResponseEntity<Object> createPermission(@RequestBody Permission permission) {
+
+		return ResponseEntity.ok().body(permissionService.createPermission(permission));
 	}
 
-	@GetMapping("/getPermission/{perId}")
+//	******************************* GET PERMISSION *********************
+	
+	@GetMapping("/")
 	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully get schema"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@Validated(OnCreate.class)
-	public PermissionResponce getPerissionById(@PathVariable String perId) {
+	public ResponseEntity<Object> getPermission(
+			@RequestParam(name = "permissionId", required = false) String permissionId) {
+		
+		if (null == permissionId || StringUtils.isEmpty(permissionId)) {
 
-		return permissionService.getPermissionById(perId);
+			return ResponseEntity.ok().body(permissionService.getListOfPermission());
+		} else {
+			return ResponseEntity.ok().body(permissionService.getPermissionById(permissionId));
+		}
+
 	}
 
-	@GetMapping("/getAllPermissionList")
+//	******************************* UPDATE PERMISSION *********************
+	
+	@PutMapping("/")
 	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully get schema"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@Validated(OnCreate.class)
-	public List<Permission> getAllPermissionList() {
+	public ResponseEntity<ApiResponce> updatePermissions(@RequestBody Permission permission) {
+		
+		this.permissionService.updatePermission(permission);
+		return new ResponseEntity<ApiResponce>(new ApiResponce("Update successfully", true), HttpStatus.OK);
 
-		return permissionService.getListOfPermission();
 	}
-
-	@GetMapping
-	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully get schema"),
-			@ApiResponse(code = 404, message = "Schema not found"),
-			@ApiResponse(code = 400, message = "Missing or invalid request body"),
-			@ApiResponse(code = 500, message = "Internal error") })
-	@Validated(OnCreate.class)
-	public ResponseEntity<Object> getPermissionDetails(@RequestParam(required = false) String permissionId) {
-
-		return permissionService.getPermissionDetails(permissionId);
-	}
-
+	
+//	******************************* DELETE PERMISSION *********************
+	
 	@DeleteMapping("/deleteById/{perId}")
 	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Deleted schema"),
@@ -87,20 +91,14 @@ public class PermissionController {
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@Validated(OnCreate.class)
-	public PermissionResponce deleteById(@PathVariable String perId) {
-		return permissionService.deletePermissionById(perId);
+	public ResponseEntity<Object> deleteById(@PathVariable String perId) {
+
+		this.permissionService.deletedPermission(perId);
+		return new ResponseEntity<Object>(new ApiResponce("Permission Deleted successfully", true), HttpStatus.OK);
+
 	}
 
-	@PutMapping("/update/{perId}")
-	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Updated schema"),
-			@ApiResponse(code = 404, message = "Schema not found"),
-			@ApiResponse(code = 400, message = "Missing or invalid request body"),
-			@ApiResponse(code = 500, message = "Internal error") })
-	@Validated(OnCreate.class)
-	public PermissionResponce updetePermission(@PathVariable String perId, @RequestBody Permission permission) {
+	
 
-		return permissionService.updatepermission(perId, permission);
-	}
 
 }
