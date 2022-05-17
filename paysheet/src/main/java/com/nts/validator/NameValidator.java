@@ -22,6 +22,7 @@ public class NameValidator implements ConstraintValidator<ValidName, String> {
 	    name=obj.name();
 	  }
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		if(StringUtils.isEmpty(value)) {

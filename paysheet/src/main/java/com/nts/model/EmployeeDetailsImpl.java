@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nts.model.entity.Employee;
 
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
 

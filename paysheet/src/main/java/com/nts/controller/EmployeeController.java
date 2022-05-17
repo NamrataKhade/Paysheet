@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.entity.Employee;
 import com.nts.model.response.EmployeeResponse;
-import com.nts.repository.EmployeeRepository;
+
 import com.nts.service.impl.EmployeeServiceImpl;
 import com.nts.validatorgroups.OnCreate;
 

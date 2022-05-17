@@ -1,6 +1,6 @@
 package com.nts.service;
 
-import java.util.List;
+
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,15 @@ public interface PermissionService extends UserDetailsService {
 
 	public PermissionResponce getPermissionById(String perId);
 
-	public List<Permission> getListOfPermission();
+	public PermissionResponce getListOfPermission(Integer pageNumber,Integer pageSize,String sortBy, String sortDir);
 
 	public PermissionResponce updatePermission(Permission permission);
+	
+	public PermissionResponce updatePermission(Permission permission, String permissionId);
 
 	public void deletedPermission(String permissionId);
-
+	
+	
+	
+	
 }

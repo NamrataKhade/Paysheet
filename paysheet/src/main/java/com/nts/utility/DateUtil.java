@@ -151,6 +151,7 @@ public class DateUtil {
 		return ((endDate.getTime() - startDate.getTime()) /1000); 
 	}
 
+	@SuppressWarnings("deprecation")
 	public static Date convertStringToDate(String dateString, String format) {
 		try {
 			if ("dd-mm-yyyy".equalsIgnoreCase(format)) {
