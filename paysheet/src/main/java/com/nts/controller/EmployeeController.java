@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.functors.FalsePredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.SortByCountOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,11 +18,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.dto.EmployeeDto;
 import com.nts.model.response.ApiResponse;
+import com.nts.model.response.PaginationResponse;
 import com.nts.service.EmployeeService;
+
+import io.swagger.models.auth.In;
 
 @RestController
 @RequestMapping(value = "/employee")
@@ -45,7 +51,7 @@ public class EmployeeController {
 
 //	Post
 	@PostMapping()
-	public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
+	public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
 		EmployeeDto createdEmployeeDto = this.employeeService.createEmployee(employeeDto);
 		logger.info("EmployeeController:createEmployee: Create Employee API");
 		return new ResponseEntity<>(createdEmployeeDto, HttpStatus.CREATED);
@@ -53,24 +59,37 @@ public class EmployeeController {
 
 //	Get
 	@PutMapping("/{empId}")
-	public ResponseEntity<EmployeeDto> updateEmployee(@Valid @RequestBody EmployeeDto employeeDto,
+	public ResponseEntity<Object> updateEmployee(@Valid @RequestBody EmployeeDto employeeDto,
 			@PathVariable String empId) {
 		logger.info("EmployeeController:updateEmployee: Update Employee");
 		EmployeeDto updatedEmployee = this.employeeService.updateEmployee(employeeDto, empId);
 		return ResponseEntity.ok(updatedEmployee);
 	}
 
-//	Get All
+//	getAllEmployee/getSingleEmployee/pagination and sorting
 	@GetMapping()
-	public ResponseEntity<List<EmployeeDto>> getAllEmployee() {
-		return ResponseEntity.ok(this.employeeService.getAllEmployee());
+	public ResponseEntity<Object> getAllEmployee(
+			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "empId", required = false) String sortBy,
+			@RequestParam(value = "empId", required = false) String empId) {
+		if (empId == null || empId.isBlank()) {
+			logger.info("EmployeeController:getAllEmployee: getAllEmployee");
+			PaginationResponse paginationResponse = this.employeeService.getAllEmployee(pageNumber, pageSize, sortBy,
+					empId);
+			return new ResponseEntity<Object>(paginationResponse, HttpStatus.OK);
+		} else {
+			logger.info("EmployeeController:getSingleEmployee: getSingleEmployee");
+			return ResponseEntity.ok(this.employeeService.getEmployeeById(empId));
+		}
+
 	}
 
 //	getSingleEmployee
-	@GetMapping("/{empId}")
-	public ResponseEntity<EmployeeDto> getSingleEmployee(@PathVariable String empId) {
-		return ResponseEntity.ok(this.employeeService.getEmployeeById(empId));
-	}
+	 /**@GetMapping("/{empId}") public
+	 ResponseEntity<EmployeeDto>getSingleEmployee(@PathVariable String empId) {
+	 return ResponseEntity.ok(this.employeeService.getEmployeeById(empId)); }**/
+	 
 
 //	Delete
 	@DeleteMapping("/{empId}")

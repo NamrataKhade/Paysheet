@@ -7,6 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.ErrorPageRegistrarBeanPostProcessor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,8 +18,11 @@ import org.springframework.stereotype.Service;
 import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.EmployeeDto;
 import com.nts.model.entity.Employee;
+import com.nts.model.response.PaginationResponse;
 import com.nts.repository.EmployeeRepository;
 import com.nts.service.EmployeeService;
+
+import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -54,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setLastName(employeeDto.getLastName());
 		employee.setGender(employeeDto.getGender());
 		employee.setEmail(employeeDto.getEmail());
+		employee.setPassword(employeeDto.getPassword());
 		employee.setStatus(employeeDto.getStatus());
 		employee.setDob(employeeDto.getDob());
 		employee.setDoj(employeeDto.getDoj());
@@ -67,18 +75,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeDto getEmployeeById(String empId) {
+	public EmployeeDto getEmployeeById(String empId){
 		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("Employee", "Id", empId));
 		return this.employeeToDto(employee);
 	}
 
 	@Override
-	public List<EmployeeDto> getAllEmployee() 
+	public PaginationResponse getAllEmployee ( Integer pageNumber ,Integer pageSize, String sortBy, String empId) 
 	{
-		List<Employee> employees = this.employeeRepository.findAll();
-		List<EmployeeDto> employeeDtos = employees.stream().map(employee ->this.employeeToDto(employee)).collect(Collectors.toList());
+		Pageable pageable=PageRequest.of(pageNumber, pageSize,org.springframework.data.domain.Sort.by(sortBy));
+		Page<Employee> employees = this.employeeRepository.findAll(pageable);
+		List<Employee> allEmployee =employees.getContent();
+		List<EmployeeDto> employeeDtos = employees.stream().map(employee ->this.modelMapper.map(employee,EmployeeDto.class)).collect(Collectors.toList());
+		PaginationResponse paginationResopnse =new PaginationResponse();
+		paginationResopnse.setContent(employeeDtos);
+		paginationResopnse.setPageNumber(employees.getNumber());
+		paginationResopnse.setPageSize(employees.getSize());
+		paginationResopnse.setTotalElement(employees.getTotalElements());
+		paginationResopnse.setTotalPgae(employees.getTotalPages());
+		paginationResopnse.setLastPage(employees.isLast());
 		
-		return employeeDtos;
+		
+		return paginationResopnse;
 	}
 
 	@Override
