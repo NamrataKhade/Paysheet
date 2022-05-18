@@ -44,7 +44,7 @@ public class PermissionController {
 
 //	******************************* CREATE PERMISSION *********************
 
-	@PostMapping()
+	@PostMapping("/")
 	@ApiOperation(value = "Create Permission", nickname = "CreatePermission")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
@@ -60,7 +60,7 @@ public class PermissionController {
 
 //	******************************* GET PERMISSION *********************
 
-	@GetMapping("/per")
+	@GetMapping("/")
 	@ApiOperation(value = "Get Permission", nickname = "GetPermission")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Get schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
@@ -71,8 +71,8 @@ public class PermissionController {
 			@RequestParam(name = "permissionId", required = false) String permissionId,
 			@RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize",defaultValue = "5",required = false)Integer pageSize,
-			@RequestParam(value = "sortBy",defaultValue = "perId",required = false) String sortBy,
-			@RequestParam(value = "sortDir",defaultValue = "perId",required = false) String sortDir
+			@RequestParam(value = "sortBy",defaultValue = "permissionId",required = false) String sortBy,
+			@RequestParam(value = "sortDir",defaultValue = "permissionId",required = false) String sortDir
 			) {
 
 		logger.debug("PermissionServiceImpl | Get Permission API");
@@ -103,33 +103,33 @@ public class PermissionController {
 
 	}
 
-	@PutMapping("/{perId}")
+	@PutMapping("/{permissionId}")
 	@ApiOperation(value = "Update Permission", nickname = "UpdatePermission")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@Validated(OnCreate.class)
-	public ResponseEntity<Object> updatePermission(@RequestBody Permission permission, @PathVariable String perId) {
+	public ResponseEntity<Object> updatePermission(@RequestBody Permission permission, @PathVariable String permissionId) {
 
 		logger.debug("PermissionServiceImpl | Update Permission API");
 
-		return ResponseEntity.ok().body(permissionService.updatePermission(permission, perId));
+		return ResponseEntity.ok().body(permissionService.updatePermission(permission, permissionId));
 //		return new ResponseEntity<ApiResponce>(new ApiResponce("Update successfully", true), HttpStatus.OK);
 
 	}
 //	******************************* DELETE PERMISSION *********************
 
-	@DeleteMapping("/deleteById/{perId}")
+	@DeleteMapping("/deleteById/{permissionId}")
 	@ApiOperation(value = "Delete Permission", nickname = "DeletePermission")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully Deleted schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
 	@Validated(OnCreate.class)
-	public ResponseEntity<Object> deleteById(@PathVariable String perId) {
+	public ResponseEntity<Object> deleteById(@PathVariable String permissionId) {
 		logger.debug("PermissionServiceImpl | Delete Permission API");
-		this.permissionService.deletedPermission(perId);
+		this.permissionService.deletedPermission(permissionId);
 		return new ResponseEntity<Object>(new ApiResponce("Permission Deleted successfully", true), HttpStatus.OK);
 
 	}

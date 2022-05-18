@@ -12,7 +12,7 @@ public interface PermissionService extends UserDetailsService {
 
 	public PermissionResponce createPermission(Permission permission);
 
-	public PermissionResponce getPermissionById(String perId);
+	public PermissionResponce getPermissionById(String permissionId);
 
 	public PermissionResponce getListOfPermission(Integer pageNumber,Integer pageSize,String sortBy, String sortDir);
 

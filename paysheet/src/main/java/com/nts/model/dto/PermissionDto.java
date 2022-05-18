@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PermissionDto {
 
-private String perId;
+private String permissionId;
 	
 	private String type;
 	

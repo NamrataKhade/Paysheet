@@ -54,9 +54,9 @@ public class PermissionServiceImpl implements PermissionService {
 		
 		logger.debug("PermissionServiceImpl | Create Permission Invoked...");
 
-		if (permission.getPerId() != null) {
+		if (permission.getPermissionId() != null) {
 			System.out.println("User Is already there");
-			throw new ResourceNotFoundException("Permission is alredy", "PerId", permission.getPerId());
+			throw new ResourceNotFoundException("Permission is alredy", "PermissionId", permission.getPermissionId());
 		} else {
 			permissionRepository.save(permission);
 		}
@@ -70,11 +70,11 @@ public class PermissionServiceImpl implements PermissionService {
 //	******************************* GET PERMISSION BY ID *********************
 
 	@Override
-	public PermissionResponce getPermissionById(String perId) {
+	public PermissionResponce getPermissionById(String permissionId) {
 		// TODO Auto-generated method stub
 
-		Permission permission = permissionRepository.findById(perId)
-				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PerId", perId));
+		Permission permission = permissionRepository.findById(permissionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PermissionId", permissionId));
 
 		PermissionResponce permissionResponce = new PermissionResponce();
 		PermissionDto permissionDto = this.modelMapper.map(permission, PermissionDto.class);
@@ -125,12 +125,12 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public PermissionResponce updatePermission(Permission permission) {
 
-		if(permission.getPerId()!=null) {
+		if(permission.getPermissionId()!=null) {
 			permissionRepository.save(permission);
 		}
 		else {
 			System.out.println("User Is already there");
-			throw new ResourceNotFoundException("Permission is Not", "PerId", permission.getPerId());
+			throw new ResourceNotFoundException("Permission is Not", "PermissionId", permission.getPermissionId());
 		}
 		
 
@@ -147,7 +147,7 @@ public class PermissionServiceImpl implements PermissionService {
 	public void deletedPermission(String permissionId) {
 		// TODO Auto-generated method stub
 		permissionRepository.findById(permissionId)
-				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PerId", permissionId));
+				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PermissionId", permissionId));
 
 		this.permissionRepository.deleteById(permissionId);
 
@@ -158,7 +158,7 @@ public class PermissionServiceImpl implements PermissionService {
 		// TODO Auto-generated method stub
 		Permission permission2 = permissionRepository.findById(permissionId).orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PerId", permissionId));
 		
-		permission.setPerId(permission2.getPerId());
+		permission.setPermissionId(permission2.getPermissionId());
 		permissionRepository.save(permission);
 		PermissionDto permissionDto = this.modelMapper.map(permission, PermissionDto.class);
 		PermissionResponce permissionResponce = new PermissionResponce();

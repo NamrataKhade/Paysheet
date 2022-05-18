@@ -16,7 +16,7 @@ import lombok.Data;
 public class Permission {
 
 	@Id
-	private String perId;
+	private String permissionId;
 	@NotEmpty(message = "Type is not null")
 	private String type;
 	@NotEmpty
