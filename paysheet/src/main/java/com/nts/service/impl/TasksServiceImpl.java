@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,7 @@ public class TasksServiceImpl implements TasksService {
 	}
 	// ************************CREATE*************************
 	@Override
-	public TasksResponse createTasks(Tasks tasks) {
+	public TasksDto createTasks(Tasks tasks) {
 		logger.debug("TasksServiceImpl | Create Tasks Invoked...");
 		TasksResponse tasksResponse = new TasksResponse();
 		tasks.setName(tasks.getName());
@@ -42,7 +44,7 @@ public class TasksServiceImpl implements TasksService {
 		tasksDto.setProjectId(tasks.getProjectId());
 		tasksDto.setStatus(tasks.getStatus());
 		tasksResponse.setTasksDto(tasksDto);
-		return tasksResponse;
+		return tasksDto;
 	}
 	// **********************UPDATE********************************
 	@Override
@@ -65,8 +67,9 @@ public class TasksServiceImpl implements TasksService {
 	// **********************GETALLTASKS********************************
 
 	@Override
-	public List<TasksDto> getAllTasks() {
-		List<Tasks> taskss = this.tasksRepository.findAll();
+	public List<TasksDto> getAllTasks(Integer pageNumber,Integer pageSize) {
+		Pageable pageable=PageRequest.of(pageNumber, pageSize);
+		Page<Tasks> taskss = this.tasksRepository.findAll(pageable);
 		List<TasksDto> tasksDtos = taskss.stream().map(tasks -> this.tasksToDto(tasks)).collect(Collectors.toList());
 		return tasksDtos;
 	}

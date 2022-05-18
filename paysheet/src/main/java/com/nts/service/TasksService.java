@@ -13,10 +13,10 @@ import com.nts.model.response.TasksResponse;
 
 public interface TasksService extends UserDetailsService {
 
-	public TasksResponse createTasks(Tasks tasks);
+	public TasksDto createTasks(Tasks tasks);
 	public TasksDto updateTasks(TasksDto tasks,String tasksId);
 	public TasksDto getTaskById(String tasksId);
-	List<TasksDto> getAllTasks();
+	List<TasksDto> getAllTasks(Integer pageNumber,Integer pageSize);
 
 	void deleteTasks(String tasksId);
 	
