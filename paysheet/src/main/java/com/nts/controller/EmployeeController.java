@@ -67,6 +67,7 @@ public class EmployeeController {
 	}
 
 //	getAllEmployee/getSingleEmployee/pagination and sorting
+
 	@GetMapping()
 	public ResponseEntity<Object> getAllEmployee(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
@@ -86,12 +87,14 @@ public class EmployeeController {
 	}
 
 //	getSingleEmployee
-	 /**@GetMapping("/{empId}") public
-	 ResponseEntity<EmployeeDto>getSingleEmployee(@PathVariable String empId) {
-	 return ResponseEntity.ok(this.employeeService.getEmployeeById(empId)); }**/
-	 
+	/**
+	 * @GetMapping("/{empId}") public
+	 * ResponseEntity<EmployeeDto>getSingleEmployee(@PathVariable String empId) {
+	 * return ResponseEntity.ok(this.employeeService.getEmployeeById(empId)); }
+	 **/
 
 //	Delete
+
 	@DeleteMapping("/{empId}")
 	public ResponseEntity<ApiResponse> deleteEmployee(@PathVariable String empId) {
 		this.employeeService.deleteEmployee(empId);

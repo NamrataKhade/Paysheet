@@ -86,7 +86,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Pageable pageable=PageRequest.of(pageNumber, pageSize,org.springframework.data.domain.Sort.by(sortBy));
 		Page<Employee> employees = this.employeeRepository.findAll(pageable);
 		List<Employee> allEmployee =employees.getContent();
-		List<EmployeeDto> employeeDtos = employees.stream().map(employee ->this.modelMapper.map(employee,EmployeeDto.class)).collect(Collectors.toList());
+		List<EmployeeDto> employeeDtos = allEmployee.stream().map(employee ->this.modelMapper.map(employee,EmployeeDto.class)).collect(Collectors.toList());
 		PaginationResponse paginationResopnse =new PaginationResponse();
 		paginationResopnse.setContent(employeeDtos);
 		paginationResopnse.setPageNumber(employees.getNumber());
