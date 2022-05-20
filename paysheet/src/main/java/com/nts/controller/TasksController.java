@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.dto.TasksDto;
 import com.nts.model.entity.Tasks;
+import com.nts.model.response.PaginationResponse;
 import com.nts.service.impl.TasksServiceImpl;
 
 @RestController
@@ -42,9 +43,9 @@ public class TasksController {
 
 	// **********************CREATE********************************
 	@PostMapping()
-	public ResponseEntity<Object> createEmployee(@Valid @RequestBody Tasks tasks) {
+	public ResponseEntity<Object> createEmployee(@Valid @RequestBody TasksDto tasksDto) {
 		logger.info("Tasks Controller | Create Tasks API");
-		TasksDto createTask = this.tasksService.createTasks(tasks);
+		TasksDto createTask = this.tasksService.createTasks(tasksDto);
 		return new ResponseEntity<>(createTask, HttpStatus.CREATED);
 
 		// return tasksService.createTasks(tasks);
@@ -58,31 +59,36 @@ public class TasksController {
 	}
 	// **********************GETALLTASKS********************************
 
-	/**
-	 * @GetMapping() public ResponseEntity<List<TasksDto>> getAllTasks() { return
-	 *               ResponseEntity.ok(this.tasksService.getAllTasks());
-	 * 
-	 *               }
-	 **/
 
 	@GetMapping()
-	public ResponseEntity<List<TasksDto>> getAllTasks(
+	
+	public ResponseEntity<Object> getAllTasks(
 			@RequestParam(name = "tasksId", required = false) String tasksId,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = "tasksId", required = false) String sortBy) {
 
-		return ResponseEntity.ok(this.tasksService.getAllTasks(pageNumber,pageSize));
-
+		if (tasksId==null || tasksId.isBlank()) {
+			logger.info("Tasks Controller | Get All Task");
+			PaginationResponse paginationResponse=this.tasksService.getAllTasks(pageNumber, pageSize, sortBy, tasksId);	
+		return new ResponseEntity<Object>(paginationResponse,HttpStatus.OK);
+		}else 
+		{
+			logger.info("Tasks Controller | Get Single Task");
+			return ResponseEntity.ok(this.tasksService.getTaskById(tasksId));
+		}
 	}
+	
 
-	// **********************GETTASKSBYID********************************
+	/** // **********************GETTASKSBYID********************************
 	// getSingleEmployee
 	@GetMapping("/{tasksId}")
 	public ResponseEntity<TasksDto> getTaskById(@PathVariable String tasksId) {
 		return ResponseEntity.ok(this.tasksService.getTaskById(tasksId));
 	}
-
+**/
+	
+	
 	// **********************DELETE********************************
 	@DeleteMapping("/{tasksId}")
 	public ResponseEntity<com.nts.model.response.ApiResponse> deleteTasks(@PathVariable String tasksId) {
