@@ -41,7 +41,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MTc2MTc1OSwiaWF0IjoxNjUxNzQzNzU5fQ.oEWl2oVQaifgTjX8xYvL90T6oWcsdmlEVa7xdLQP8Ql5T1pdcLtkhVbNvxXrwKPEt-rIGmpyHE0ie_FFhXPkFQ",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
 							"type": "string"
 						}
 					]
@@ -49,7 +49,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/permission/getPermission/626a7973f41b615e2d6ea9e7",
+					"raw": "http://localhost:8080/permission/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -57,8 +57,7 @@
 					"port": "8080",
 					"path": [
 						"permission",
-						"getPermission",
-						"626a7973f41b615e2d6ea9e7"
+						""
 					]
 				}
 			},
@@ -72,7 +71,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MTc2MTc1OSwiaWF0IjoxNjUxNzQzNzU5fQ.oEWl2oVQaifgTjX8xYvL90T6oWcsdmlEVa7xdLQP8Ql5T1pdcLtkhVbNvxXrwKPEt-rIGmpyHE0ie_FFhXPkFQ",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
 							"type": "string"
 						}
 					]
@@ -80,7 +79,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/permission/getPermission/626a7973f41b615e2d6ea9e7",
+					"raw": "http://localhost:8080/permission/?permissionId=6285e5599c4ae845103de7b0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -88,8 +87,13 @@
 					"port": "8080",
 					"path": [
 						"permission",
-						"getPermission",
-						"626a7973f41b615e2d6ea9e7"
+						""
+					],
+					"query": [
+						{
+							"key": "permissionId",
+							"value": "6285e5599c4ae845103de7b0"
+						}
 					]
 				}
 			},
@@ -103,7 +107,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MTc2MTc1OSwiaWF0IjoxNjUxNzQzNzU5fQ.oEWl2oVQaifgTjX8xYvL90T6oWcsdmlEVa7xdLQP8Ql5T1pdcLtkhVbNvxXrwKPEt-rIGmpyHE0ie_FFhXPkFQ",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
 							"type": "string"
 						}
 					]
@@ -111,7 +115,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/permission/deleteById/626a7973f41b615e2d6ea9e7",
+					"raw": "http://localhost:8080/permission/6285e5599c4ae845103de7b0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -119,8 +123,7 @@
 					"port": "8080",
 					"path": [
 						"permission",
-						"deleteById",
-						"626a7973f41b615e2d6ea9e7"
+						"6285e5599c4ae845103de7b0"
 					]
 				}
 			},
@@ -134,7 +137,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MTc2MTc1OSwiaWF0IjoxNjUxNzQzNzU5fQ.oEWl2oVQaifgTjX8xYvL90T6oWcsdmlEVa7xdLQP8Ql5T1pdcLtkhVbNvxXrwKPEt-rIGmpyHE0ie_FFhXPkFQ",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
 							"type": "string"
 						}
 					]
@@ -143,7 +146,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"type\":\"Employee\",\r\n    \"name\":\"Pratiksha\",\r\n    \"status\":\"active\"\r\n}",
+					"raw": "{\r\n    \"type\":\"HR\",\r\n    \"name\":\"Pratiksha\"\r\n   \r\n    \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -151,14 +154,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/permission",
+					"raw": "http://localhost:8080/permission/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"permission"
+						"permission",
+						""
 					]
 				}
 			},
@@ -172,7 +176,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MTc2MTc1OSwiaWF0IjoxNjUxNzQzNzU5fQ.oEWl2oVQaifgTjX8xYvL90T6oWcsdmlEVa7xdLQP8Ql5T1pdcLtkhVbNvxXrwKPEt-rIGmpyHE0ie_FFhXPkFQ",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
 							"type": "string"
 						}
 					]
@@ -181,7 +185,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"perId\": \"62739dd8f6fc21422c027cfe\",\r\n        \"type\": \"Employee\",\r\n        \"name\": \"Rajesh\",\r\n        \"status\": \"active\"\r\n    }",
+					"raw": "{\r\n    \"permissionId\": \"628b30626a1e3a328c771403\",\r\n    \"type\": \"HR\",\r\n    \"name\": \"Pratiksha\",\r\n    \"status\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -189,7 +193,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/permission/update/62739dd8f6fc21422c027cfe",
+					"raw": "http://localhost:8080/permission/628b30626a1e3a328c771403",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -197,8 +201,7 @@
 					"port": "8080",
 					"path": [
 						"permission",
-						"update",
-						"62739dd8f6fc21422c027cfe"
+						"628b30626a1e3a328c771403"
 					]
 				}
 			},

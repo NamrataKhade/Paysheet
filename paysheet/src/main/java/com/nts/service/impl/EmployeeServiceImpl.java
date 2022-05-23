@@ -3,7 +3,6 @@ package com.nts.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,6 @@ import com.nts.model.response.EmployeeResponse;
 import com.nts.repository.EmployeeRepository;
 import com.nts.service.EmployeeService;
 
-import lombok.Getter;
-
-@Getter
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -59,9 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeResponse getAllEmployeeById(String empId) {
-		// TODO Auto-generated method stub
-		// return employeeRepository.findById(empId).orElseThrow(()->new
-		// RuntimeException(String.format("Can not find Employee By Id", empId)));
+
 		Employee employee = employeeRepository.findById(empId)
 				.orElseThrow(() -> new RuntimeException(String.format("Can not find Employee By Id", empId)));
 
@@ -85,15 +79,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getAllEmployee() {
-		// TODO Auto-generated method stub
 
 		return employeeRepository.findAll();
 	}
 
 	@Override
 	public EmployeeResponse deleteEmployeeById(String empId) {
-		// TODO Auto-generated method stub
-//		 = employeeRepository.deleteById(empId).orElseThrow(()->new RuntimeException(String.format("Can not find Employee By Id", empId)));
+
 		Employee employee = new Employee();
 
 		employeeRepository.deleteById(empId);
@@ -118,7 +110,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeResponse updateEmployee(String empId, Employee employee) {
-		// TODO Auto-generated method stub
 
 		employee.setEmpId(empId);
 

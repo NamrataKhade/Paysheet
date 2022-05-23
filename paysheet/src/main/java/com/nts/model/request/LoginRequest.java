@@ -10,12 +10,8 @@ public class LoginRequest {
 	@Email(message = "Invalid userName")
 	@NotEmpty(message = "userName must not be empty")
 	private String userName;
-	
+
 	@NotEmpty(message = "password must not be empty")
 	private String password;
 
-	
-	
-	
-	
 }

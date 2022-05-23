@@ -1,16 +1,11 @@
 package com.nts.exception;
 
-import lombok.Getter;
+import lombok.Data;
 
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
 public class ResourceNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	String permissionId;

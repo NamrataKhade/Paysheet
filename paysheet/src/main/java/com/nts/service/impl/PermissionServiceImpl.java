@@ -2,7 +2,7 @@ package com.nts.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.PermissionDto;
 import com.nts.model.entity.Permission;
@@ -23,13 +24,11 @@ import com.nts.model.response.PermissionResponce;
 import com.nts.repository.PermissionRepository;
 import com.nts.service.PermissionService;
 
-
-
 @Service
 public class PermissionServiceImpl implements PermissionService {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
-	
+
 	@Autowired
 	private PermissionRepository permissionRepository;
 
@@ -38,133 +37,86 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
 
 		return new User("admin", "password", new ArrayList<>());
 
 	}
 
-//	******************************* CREATE PERMISSION *********************
-
-//	permission-->>permissionDto
-
 	@Override
-	public PermissionResponce createPermission(Permission permission) {
-		// TODO Auto-generated method stub
+	public PermissionDto createPermission(PermissionDto permissionDto) {
 		
+
 		logger.debug("PermissionServiceImpl | Create Permission Invoked...");
 
-		if (permission.getPermissionId() != null) {
+		if (permissionDto.getPermissionId() != null) {
 			System.out.println("User Is already there");
-			throw new ResourceNotFoundException("Permission is alredy", "PermissionId", permission.getPermissionId());
-		} else {
-			permissionRepository.save(permission);
+			throw new ResourceNotFoundException("Permission is alredy", "PermissionId",
+					permissionDto.getPermissionId());
 		}
-		PermissionResponce permissionResponce = new PermissionResponce();
+		Permission permission = this.modelMapper.map(permissionDto, Permission.class);
+		Permission save = permissionRepository.save(permission);
 
-		PermissionDto permissionDto = this.modelMapper.map(permission, PermissionDto.class);
-		permissionResponce.setPermissionDto(permissionDto);
-		return permissionResponce;
+		return this.modelMapper.map(save, PermissionDto.class);
 	}
 
-//	******************************* GET PERMISSION BY ID *********************
-
 	@Override
-	public PermissionResponce getPermissionById(String permissionId) {
-		// TODO Auto-generated method stub
+	public PermissionDto getPermissionById(String permissionId) {
 
 		Permission permission = permissionRepository.findById(permissionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PermissionId", permissionId));
 
-		PermissionResponce permissionResponce = new PermissionResponce();
-		PermissionDto permissionDto = this.modelMapper.map(permission, PermissionDto.class);
-		permissionResponce.setPermissionDto(permissionDto);
-		return permissionResponce;
+		return this.modelMapper.map(permission, PermissionDto.class);
 
 	}
-
-//	******************************* GET PERMISSION LIST *********************
-
-	
-	@Override
-	public PermissionResponce getListOfPermission(Integer pageNumber,Integer pageSize,String sortBy,String sortDir) {
-		// TODO Auto-generated method stub
-//		PageRequest of = PageRequest.of(1, 1, Sort.by(sortBy));
-		
-//		int pageSixe=5;
-//		int pageNo=1;
-		
-		Sort sort=(sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
-		
-//		if(sortDir.equalsIgnoreCase("asc")) {
-//			sort=Sort.by(sortBy).ascending();
-//		}
-//		else {
-//			sort=Sort.by(sortBy).descending();
-//		}
-		Pageable pageable=PageRequest.of(pageNumber, pageSize,sort);
-		
-	 Page<Permission> pagePermission = this.permissionRepository.findAll(pageable);
-	 
-	 List<Permission> allPages = pagePermission.getContent();
-//	 List<Object> collect = allPages.stream().map(null).collect(Collectors.toList());
-	 
-	PermissionResponce permissionResponce=new PermissionResponce();
-	permissionResponce.setPermissions(allPages);
-	 permissionResponce.setPageNumber(pagePermission.getNumber());
-	 permissionResponce.setPageSize(pagePermission.getSize());
-	 permissionResponce.setTotalElements(pagePermission.getTotalElements());
-	 permissionResponce.setTotalPages(pagePermission.getTotalPages());
-	 permissionResponce.setLastpage(pagePermission.isLast());
-	 
-		return permissionResponce;
-	}
-
-//	******************************* UPDATE PERMISSION *********************
 
 	@Override
-	public PermissionResponce updatePermission(Permission permission) {
+	public List<PermissionDto> getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy,
+			String sortDir) {
 
-		if(permission.getPermissionId()!=null) {
-			permissionRepository.save(permission);
-		}
-		else {
-			System.out.println("User Is already there");
-			throw new ResourceNotFoundException("Permission is Not", "PermissionId", permission.getPermissionId());
-		}
-		
+		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
-		PermissionDto permissionDto = this.modelMapper.map(permission, PermissionDto.class);
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+
+		Page<Permission> permissions = this.permissionRepository.findAll(pageable);
+		List<PermissionDto> permissionDtos = permissions.stream()
+				.map((per) -> this.modelMapper.map(per, PermissionDto.class)).collect(Collectors.toList());
+
+		List<Permission> allPages = permissions.getContent();
+
 		PermissionResponce permissionResponce = new PermissionResponce();
-		permissionResponce.setPermissionDto(permissionDto);
+		permissionResponce.setPermissions(allPages);
+		permissionResponce.setPageNumber(permissions.getNumber());
+		permissionResponce.setPageSize(permissions.getSize());
+		permissionResponce.setTotalElements(permissions.getTotalElements());
+		permissionResponce.setTotalPages(permissions.getTotalPages());
+		permissionResponce.setLastpage(permissions.isLast());
 
-		return permissionResponce;
+		return permissionDtos;
 	}
 
-//	******************************* DELETE PERMISSION *********************
+	@Override
+	public PermissionDto updatePermission(PermissionDto permissionDto, String permissionId) {
+
+		Permission permission = permissionRepository.findById(permissionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PerId", permissionId));
+
+		permission.setType(permissionDto.getType());
+		permission.setName(permissionDto.getName());
+		permission.setStatus(permissionDto.isStatus());
+
+		Permission updatePermission = this.permissionRepository.save(permission);
+
+		return this.modelMapper.map(updatePermission, PermissionDto.class);
+	}
 
 	@Override
 	public void deletedPermission(String permissionId) {
-		// TODO Auto-generated method stub
+
 		permissionRepository.findById(permissionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PermissionId", permissionId));
 
 		this.permissionRepository.deleteById(permissionId);
 
-	}
-
-	@Override
-	public PermissionResponce updatePermission(Permission permission, String permissionId) {
-		// TODO Auto-generated method stub
-		Permission permission2 = permissionRepository.findById(permissionId).orElseThrow(() -> new ResourceNotFoundException("Permission is Not", "PerId", permissionId));
-		
-		permission.setPermissionId(permission2.getPermissionId());
-		permissionRepository.save(permission);
-		PermissionDto permissionDto = this.modelMapper.map(permission, PermissionDto.class);
-		PermissionResponce permissionResponce = new PermissionResponce();
-		permissionResponce.setPermissionDto(permissionDto);
-
-		return permissionResponce;
 	}
 
 }

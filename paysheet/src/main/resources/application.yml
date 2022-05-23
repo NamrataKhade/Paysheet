@@ -12,3 +12,5 @@ spring:
 jwt:
  jwtSecret: intellidocsSecretKey
  jwtExpirationMs: 36000000
+ 
+  
