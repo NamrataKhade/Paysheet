@@ -17,7 +17,6 @@ import com.nts.model.response.ApiResponce;
 @ControllerAdvice
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponce> resorceNotFoundException(ResourceNotFoundException ex) {
 		String message = ex.getMessage();

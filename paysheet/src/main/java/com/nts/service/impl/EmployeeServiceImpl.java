@@ -21,13 +21,10 @@ import com.nts.service.EmployeeService;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
-
 	@Autowired
 	private EmployeeRepository employeeRepository;
-
 	@Override
 	public EmployeeResponse createEmployee(Employee employee) {
-
 		logger.debug("EmployeeServiceImpl | Create Employee Invoked...");
 		EmployeeResponse employeeResponse = new EmployeeResponse();
 		employee.setFirstName(employee.getFirstName());
@@ -47,15 +44,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeResponse;
 
 	}
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return new User("admin", "password", new ArrayList<>());
 	}
-
 	@Override
 	public EmployeeResponse getAllEmployeeById(String empId) {
-
 		Employee employee = employeeRepository.findById(empId)
 				.orElseThrow(() -> new RuntimeException(String.format("Can not find Employee By Id", empId)));
 
