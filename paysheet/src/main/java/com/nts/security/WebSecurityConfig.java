@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.nts.service.EmployeeService;
-
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
@@ -35,14 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private EmployeeService employeeService;
-
 	@Autowired
 	private JwtFilter jwtFilter;
-
 	@Autowired
 	private AuthEntryPointJwt jwtAuthenticationEntryPoint;
-
-// basic spring security authentication
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(employeeService);
@@ -62,7 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		http.csrf()
 		.disable()
 		.authorizeHttpRequests()

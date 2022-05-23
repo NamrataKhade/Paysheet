@@ -30,7 +30,6 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping(value = "/employee")
 public class EmployeeController {
-
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 	@Autowired
 	private EmployeeServiceImpl employeeService;
