@@ -1,14 +1,10 @@
 package com.nts.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
-import org.apache.commons.collections4.functors.FalsePredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.SortByCountOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +22,6 @@ import com.nts.model.response.ApiResponse;
 import com.nts.model.response.PaginationResponse;
 import com.nts.service.EmployeeService;
 
-import io.swagger.models.auth.In;
-
 @RestController
 @RequestMapping(value = "/employee")
 public class EmployeeController {
@@ -37,19 +31,7 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
-//	@PostMapping()
-//	@ApiOperation(value = "Create Employee", nickname = "CreateEmployee")
-//	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
-//			@ApiResponse(code = 404, message = "Schema not found"),
-//			@ApiResponse(code = 400, message = "Missing or invalid request body"),
-//			@ApiResponse(code = 500, message = "Internal error") })
-//	@Validated(OnCreate.class)
-//	public EmployeeResponse createEmployee(@Valid @RequestBody Employee employee) {
-//		logger.info("Employee Controller | Create Employee API");
-//		return employeeService.createEmployee(employee);
-//	}
-
-//	Post
+//	createEmployee
 	@PostMapping()
 	public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
 		EmployeeDto createdEmployeeDto = this.employeeService.createEmployee(employeeDto);
@@ -57,7 +39,7 @@ public class EmployeeController {
 		return new ResponseEntity<>(createdEmployeeDto, HttpStatus.CREATED);
 	}
 
-//	Get
+//	updateEmployee
 	@PutMapping("/{empId}")
 	public ResponseEntity<Object> updateEmployee(@Valid @RequestBody EmployeeDto employeeDto,
 			@PathVariable String empId) {
@@ -67,7 +49,6 @@ public class EmployeeController {
 	}
 
 //	getAllEmployee/getSingleEmployee/pagination and sorting
-
 	@GetMapping()
 	public ResponseEntity<Object> getAllEmployee(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
@@ -86,15 +67,7 @@ public class EmployeeController {
 
 	}
 
-//	getSingleEmployee
-	/**
-	 * @GetMapping("/{empId}") public
-	 * ResponseEntity<EmployeeDto>getSingleEmployee(@PathVariable String empId) {
-	 * return ResponseEntity.ok(this.employeeService.getEmployeeById(empId)); }
-	 **/
-
 //	Delete
-
 	@DeleteMapping("/{empId}")
 	public ResponseEntity<ApiResponse> deleteEmployee(@PathVariable String empId) {
 		this.employeeService.deleteEmployee(empId);

@@ -28,23 +28,21 @@ import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return new User("admin","password", new ArrayList<>());
-			
+		return new User("admin", "password", new ArrayList<>());
+
 	}
-	
+
 	@Override
-	public EmployeeDto createEmployee(EmployeeDto employeeDto) 
-	{
+	public EmployeeDto createEmployee(EmployeeDto employeeDto) {
 		Employee employee = this.dtoToEmployee(employeeDto);
 		logger.debug("EmployeeServiceImpl | Create Employee Invoked...");
 		Employee savedEmployee = this.employeeRepository.save(employee);
@@ -53,9 +51,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDto updateEmployee(EmployeeDto employeeDto, String empId) {
-		
-		Employee employee = this.employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
-		
+
+		Employee employee = this.employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
+
 		employee.setFirstName(employeeDto.getFirstName());
 		employee.setMiddleName(employeeDto.getMiddleName());
 		employee.setLastName(employeeDto.getLastName());
@@ -67,65 +66,55 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setDoj(employeeDto.getDoj());
 		employee.setReportingManager(employeeDto.getReportingManager());
 		employee.setMobileNumber(empId);
-		
+
 		Employee updatedEmployee = this.employeeRepository.save(employee);
 		EmployeeDto employeeToDto = this.employeeToDto(updatedEmployee);
-		
+
 		return employeeToDto;
 	}
 
 	@Override
-	public EmployeeDto getEmployeeById(String empId){
-		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("Employee", "Id", empId));
+	public EmployeeDto getEmployeeById(String empId) {
+		Employee employee = this.employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
 		return this.employeeToDto(employee);
 	}
 
 	@Override
-	public PaginationResponse getAllEmployee ( Integer pageNumber ,Integer pageSize, String sortBy, String empId) 
-	{
-		Pageable pageable=PageRequest.of(pageNumber, pageSize,org.springframework.data.domain.Sort.by(sortBy));
+	public PaginationResponse getAllEmployee(Integer pageNumber, Integer pageSize, String sortBy, String empId) {
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, org.springframework.data.domain.Sort.by(sortBy));
 		Page<Employee> employees = this.employeeRepository.findAll(pageable);
-		List<Employee> allEmployee =employees.getContent();
-		List<EmployeeDto> employeeDtos = allEmployee.stream().map(employee ->this.modelMapper.map(employee,EmployeeDto.class)).collect(Collectors.toList());
-		PaginationResponse paginationResopnse =new PaginationResponse();
+		List<Employee> allEmployee = employees.getContent();
+		List<EmployeeDto> employeeDtos = allEmployee.stream()
+				.map(employee -> this.modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		PaginationResponse paginationResopnse = new PaginationResponse();
 		paginationResopnse.setContent(employeeDtos);
 		paginationResopnse.setPageNumber(employees.getNumber());
 		paginationResopnse.setPageSize(employees.getSize());
 		paginationResopnse.setTotalElement(employees.getTotalElements());
 		paginationResopnse.setTotalPgae(employees.getTotalPages());
 		paginationResopnse.setLastPage(employees.isLast());
-		
-		
+
 		return paginationResopnse;
 	}
 
 	@Override
-	public void deleteEmployee(String empId) 
-	{
-		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("Employee", "Id", empId));
+	public void deleteEmployee(String empId) {
+		Employee employee = this.employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
 		this.employeeRepository.delete(employee);
 	}
-	
-	public Employee dtoToEmployee(EmployeeDto employeeDto)
-	{
+
+	public Employee dtoToEmployee(EmployeeDto employeeDto) {
 		Employee employee = this.modelMapper.map(employeeDto, Employee.class);
-		
-	
+
 		return employee;
 	}
-	
-	public EmployeeDto employeeToDto(Employee employee)
-	{
+
+	public EmployeeDto employeeToDto(Employee employee) {
 		EmployeeDto employeeDto = this.modelMapper.map(employee, EmployeeDto.class);
 
-		
 		return employeeDto;
 	}
 
-	
-
-
-
-	
-	
 }
