@@ -14,13 +14,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaginationResponse {
-	
+
 	private List<TasksDto> content;
 	private int pageNumber;
 	private int pageSize;
 	private long totalElemenet;
 	private int totalPage;
 	private boolean lastPage;
-	
 
 }

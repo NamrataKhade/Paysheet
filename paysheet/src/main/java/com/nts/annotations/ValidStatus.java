@@ -11,16 +11,16 @@ import javax.validation.Payload;
 
 import com.nts.validator.StatusValidator;
 
-@Target({ ElementType.FIELD, ElementType.METHOD , ElementType.PARAMETER})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = StatusValidator.class)
 @Documented
 public @interface ValidStatus {
 
-  String message() default "Status must be either Enabled or Disabled";
+	String message() default "Status must be either Enabled or Disabled";
 
-  Class<?>[] groups() default { };
+	Class<?>[] groups() default {};
 
-  Class<? extends Payload>[] payload() default { };
+	Class<? extends Payload>[] payload() default {};
 
 }

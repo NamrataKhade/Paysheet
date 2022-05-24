@@ -1,6 +1,5 @@
 package com.nts.controller;
 
-import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.dto.TasksDto;
-import com.nts.model.entity.Tasks;
 import com.nts.model.response.PaginationResponse;
 import com.nts.service.impl.TasksServiceImpl;
 
@@ -30,18 +28,7 @@ public class TasksController {
 	@Autowired
 	private TasksServiceImpl tasksService;
 
-	/**
-	 * @PostMapping() @ApiOperation(value = "Create Tasks", nickname =
-	 *                "CreateTasks")
-	 * @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully
-	 *                     updated schema"),
-	 * @ApiResponse(code = 404, message = "Schema not found"),
-	 * @ApiResponse(code = 400, message = "Missing or invalid request body"),
-	 * @ApiResponse(code = 500, message = "Internal error")
-	 *                   }) @Validated(OnCreate.class)
-	 **/
-
-	// **********************CREATE********************************
+	// CREATE
 	@PostMapping()
 	public ResponseEntity<Object> createEmployee(@Valid @RequestBody TasksDto tasksDto) {
 		logger.info("Tasks Controller | Create Tasks API");
@@ -51,45 +38,33 @@ public class TasksController {
 		// return tasksService.createTasks(tasks);
 	}
 
-	// **********************UPDATE********************************
+	// UPDATE
 	@PutMapping("/{tasksId}")
 	public ResponseEntity<TasksDto> updateTasks(@Valid @RequestBody TasksDto tasks, @PathVariable String tasksId) {
+		logger.info("Tasks Controller | Update Tasks API");
 		TasksDto updatedTasks = this.tasksService.updateTasks(tasks, tasksId);
 		return ResponseEntity.ok(updatedTasks);
 	}
-	// **********************GETALLTASKS********************************
 
-
+	// GETALLTASKS&SINGLETASK
 	@GetMapping()
-	
-	public ResponseEntity<Object> getAllTasks(
-			@RequestParam(name = "tasksId", required = false) String tasksId,
+	public ResponseEntity<Object> getAllTasks(@RequestParam(name = "tasksId", required = false) String tasksId,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
 			@RequestParam(value = "sortBy", defaultValue = "tasksId", required = false) String sortBy) {
 
-		if (tasksId==null || tasksId.isBlank()) {
+		if (tasksId == null || tasksId.isBlank()) {
 			logger.info("Tasks Controller | Get All Task");
-			PaginationResponse paginationResponse=this.tasksService.getAllTasks(pageNumber, pageSize, sortBy, tasksId);	
-		return new ResponseEntity<Object>(paginationResponse,HttpStatus.OK);
-		}else 
-		{
+			PaginationResponse paginationResponse = this.tasksService.getAllTasks(pageNumber, pageSize, sortBy,
+					tasksId);
+			return new ResponseEntity<Object>(paginationResponse, HttpStatus.OK);
+		} else {
 			logger.info("Tasks Controller | Get Single Task");
 			return ResponseEntity.ok(this.tasksService.getTaskById(tasksId));
 		}
 	}
-	
 
-	/** // **********************GETTASKSBYID********************************
-	// getSingleEmployee
-	@GetMapping("/{tasksId}")
-	public ResponseEntity<TasksDto> getTaskById(@PathVariable String tasksId) {
-		return ResponseEntity.ok(this.tasksService.getTaskById(tasksId));
-	}
-**/
-	
-	
-	// **********************DELETE********************************
+	// DELETE
 	@DeleteMapping("/{tasksId}")
 	public ResponseEntity<com.nts.model.response.ApiResponse> deleteTasks(@PathVariable String tasksId) {
 		this.tasksService.deleteTasks(tasksId);

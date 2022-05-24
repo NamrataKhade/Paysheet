@@ -1,11 +1,9 @@
 package com.nts.service.impl;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +23,11 @@ import com.nts.model.response.PaginationResponse;
 import com.nts.repository.TasksRepository;
 import com.nts.service.TasksService;
 
-
 @Service
 public class TasksServiceImpl implements TasksService {
 	@Autowired
 	private TasksRepository tasksRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -40,6 +37,7 @@ public class TasksServiceImpl implements TasksService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return null;
 	}
+
 	// ************************CREATE*************************
 	@Override
 	public TasksDto createTasks(TasksDto tasksDto) {
@@ -48,17 +46,21 @@ public class TasksServiceImpl implements TasksService {
 		Tasks createTask = this.tasksRepository.save(tasks);
 		return this.tasksToDto(createTask);
 	}
+
 	// **********************UPDATE********************************
 	@Override
 	public TasksDto updateTasks(TasksDto tasksDto, String tasksId) {
 		Tasks tasks = this.tasksRepository.findById(tasksId).orElse(null);
 		tasks.setName(tasksDto.getName());
 		tasks.setStatus(tasksDto.getStatus());
+		tasks.setProjectId(tasksDto.getProjectId());
+
 		Tasks save = this.tasksRepository.save(tasks);
 
 		TasksDto tasksToDto = this.tasksToDto(save);
 		return tasksToDto;
 	}
+
 	// **********************GETTASKSBYID********************************
 	@Override
 	public TasksDto getTaskById(String tasksId) {
@@ -66,18 +68,18 @@ public class TasksServiceImpl implements TasksService {
 				.orElseThrow(() -> new ResourceNotFoundException("Tasks", "id", tasksId));
 		return this.tasksToDto(tasks);
 	}
-	
 
 	// **********************GETALLTASKS********************************
 
 	@Override
-	public PaginationResponse getAllTasks(Integer pageNumber,Integer pageSize,String sortBy,String tasksId) {
-		Pageable pageable=PageRequest.of(pageNumber, pageSize, org.springframework.data.domain.Sort.by(sortBy));
+	public PaginationResponse getAllTasks(Integer pageNumber, Integer pageSize, String sortBy, String tasksId) {
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, org.springframework.data.domain.Sort.by(sortBy));
 		Page<Tasks> taskss = this.tasksRepository.findAll(pageable);
 
-		List<Tasks> allTasks =taskss.getContent();
-		List<TasksDto> tasksDtos = allTasks.stream().map(tasks ->this.modelMapper.map(tasks,TasksDto.class)).collect(Collectors.toList());
-		PaginationResponse paginationResopnse =new PaginationResponse();
+		List<Tasks> allTasks = taskss.getContent();
+		List<TasksDto> tasksDtos = allTasks.stream().map(tasks -> this.modelMapper.map(tasks, TasksDto.class))
+				.collect(Collectors.toList());
+		PaginationResponse paginationResopnse = new PaginationResponse();
 		paginationResopnse.setContent(tasksDtos);
 		paginationResopnse.setPageNumber(taskss.getNumber());
 		paginationResopnse.setPageSize(taskss.getSize());
@@ -85,7 +87,6 @@ public class TasksServiceImpl implements TasksService {
 		paginationResopnse.setTotalPage(taskss.getTotalPages());
 		paginationResopnse.setLastPage(taskss.isLast());
 
-		
 		return paginationResopnse;
 	}
 
@@ -98,21 +99,15 @@ public class TasksServiceImpl implements TasksService {
 
 	}
 
-	public Tasks dtoToTask(TasksDto tasksDto)
-	{
-	Tasks tasks  = this.modelMapper.map(tasksDto, Tasks.class);
+	public Tasks dtoToTask(TasksDto tasksDto) {
+		Tasks tasks = this.modelMapper.map(tasksDto, Tasks.class);
 
-
-	return tasks;
+		return tasks;
 	}
 
-	public TasksDto tasksToDto(Tasks tasks)
-	{
-	TasksDto tasksDto = this.modelMapper.map(tasks, TasksDto.class);
+	public TasksDto tasksToDto(Tasks tasks) {
+		TasksDto tasksDto = this.modelMapper.map(tasks, TasksDto.class);
 
-
-
-
-	return tasksDto;
-	}	
+		return tasksDto;
+	}
 }

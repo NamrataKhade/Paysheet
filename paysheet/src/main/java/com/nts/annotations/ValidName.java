@@ -11,16 +11,16 @@ import javax.validation.Payload;
 
 import com.nts.validator.NameValidator;
 
-@Target({ ElementType.FIELD, ElementType.METHOD , ElementType.PARAMETER, ElementType.TYPE_USE})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE_USE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = NameValidator.class)
 @Documented
 public @interface ValidName {
-	 String message() default "Invalid Name";
+	String message() default "Invalid Name";
 
-	  Class<?>[] groups() default { };
+	Class<?>[] groups() default {};
 
-	  Class<? extends Payload>[] payload() default { };
-	  
-	  String name();
+	Class<? extends Payload>[] payload() default {};
+
+	String name();
 }
