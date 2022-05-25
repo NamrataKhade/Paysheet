@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.nts.exception.ResourceNotFoundException;
+import com.nts.exception.ResourceNotFoundExpection;
 import com.nts.model.dto.EmployeeDto;
 import com.nts.model.entity.Employee;
 import com.nts.repository.EmployeeRepository;
@@ -47,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public EmployeeDto updateEmployee(EmployeeDto employeeDto, String empId) {
 		
-		Employee employee = this.employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
+		Employee employee = this.employeeRepository.findById(empId).orElseThrow(() -> new ResourceNotFoundExpection("Employee", "Id", empId));
 		
 		employee.setFirstName(employeeDto.getFirstName());
 		employee.setMiddleName(employeeDto.getMiddleName());
@@ -68,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDto getEmployeeById(String empId) {
-		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("Employee", "Id", empId));
+		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundExpection("Employee", "Id", empId));
 		return this.employeeToDto(employee);
 	}
 
@@ -84,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void deleteEmployee(String empId) 
 	{
-		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundException("Employee", "Id", empId));
+		Employee employee = this.employeeRepository.findById(empId).orElseThrow(()-> new ResourceNotFoundExpection("Employee", "Id", empId));
 		this.employeeRepository.delete(employee);
 	}
 	
