@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.nts.exception.ResourceNotFoundExpection;
 import com.nts.model.dto.ProjectsDto;
 import com.nts.model.entity.Projects;
+import com.nts.model.response.PaginationResponse;
 import com.nts.repository.ProjectsRepository;
 import com.nts.service.ProjectsService;
 
@@ -65,7 +66,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 
 	}
 
-	public List<ProjectsDto> getAllProjects(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+	public PaginationResponse getAllProjects(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
 
 		Sort sort = null;
 		if (sortDir.equalsIgnoreCase("asc")) {
@@ -80,7 +81,15 @@ public class ProjectsServiceImpl implements ProjectsService {
 				.collect(Collectors.toList());
 		List<Projects> allProjects = projects.getContent();
 
-		return projectsDtos;
+		PaginationResponse paginationResponse = new PaginationResponse();
+		paginationResponse.setContent(projectsDtos);
+		paginationResponse.setPageNumber(projects.getNumber());
+		paginationResponse.setPageSize(projects.getSize());
+		paginationResponse.setTotalElements(projects.getTotalElements());
+		paginationResponse.setTotalPages(projects.getTotalPages());
+		paginationResponse.setLastPage(projects.isLast());
+
+		return paginationResponse;
 
 	}
 

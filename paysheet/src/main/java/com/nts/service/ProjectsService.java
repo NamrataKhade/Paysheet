@@ -1,9 +1,10 @@
 package com.nts.service;
 
-import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
 import com.nts.model.dto.ProjectsDto;
+import com.nts.model.response.PaginationResponse;
 
 @Service
 public interface ProjectsService extends UserDetailsService {
@@ -12,7 +13,7 @@ public interface ProjectsService extends UserDetailsService {
 
 	public ProjectsDto getProjectsById(String proId);
 
-	public List<ProjectsDto> getAllProjects(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
+	public PaginationResponse getAllProjects(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 
 	public ProjectsDto updateProjects(String proId, ProjectsDto projectsDto);
 
