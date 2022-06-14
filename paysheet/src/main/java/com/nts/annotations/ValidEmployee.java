@@ -11,17 +11,17 @@ import javax.validation.Payload;
 
 import com.nts.validator.UserValidator;
 
-@Target({ ElementType.FIELD, ElementType.METHOD , ElementType.PARAMETER, ElementType.TYPE_USE})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE_USE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UserValidator.class)
 @Documented
 public @interface ValidEmployee {
-	
-	 String message() default "Invalid employee name";
 
-	  Class<?>[] groups() default { };
+	String message() default "Invalid employee name";
 
-	  Class<? extends Payload>[] payload() default { };
-	  
-	  String name();
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+
+	String name();
 }
