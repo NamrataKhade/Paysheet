@@ -11,7 +11,7 @@ public class TasksDto {
 	private String tasksId;
 
 	@NotEmpty
-	@Size(min = 5, max = 30, message = "Tasks Name shouild be min 4 and max 30!!")
+	@Size(min = 5, max = 30, message = "Tasks Name should be min 4 and max 30!!")
 	private String name;
 
 	@NotEmpty

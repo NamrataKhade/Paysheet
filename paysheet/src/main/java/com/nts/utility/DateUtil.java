@@ -37,17 +37,7 @@ public class DateUtil {
 	}
 
 	public static void main(String[] args) throws ParseException, InterruptedException {
-		/*
-		 * String date = getFormattedDateTimeStamp(); stringToDate(date);
-		 * 
-		 * Date date1 = new Date(); Thread.currentThread().sleep(10000); Date date2 =
-		 * new Date(); System.out.println(dateDifference(date1, date2));
-		 * 
-		 * Date startDate = new Date(); Thread.currentThread().sleep(10000);
-		 * System.out.println(daysBetweenCurrentDate(startDate));
-		 * 
-		 * System.out.println(daysBetween(subtractDays(startDate, 5), startDate));
-		 */
+
 		Double pageLevelConfidenceSum = 2D;
 		if (pageLevelConfidenceSum < -1D) {
 

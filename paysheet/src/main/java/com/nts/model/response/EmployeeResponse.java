@@ -8,4 +8,6 @@ import lombok.Data;
 public class EmployeeResponse {
 
 	private EmployeeDto employeeDto;
+	private String status;
+
 }

@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.core.messaging.Task;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -77,13 +75,13 @@ public class TasksServiceImpl implements TasksService {
 		Page<Tasks> taskss = this.tasksRepository.findAll(pageable);
 
 		List<Tasks> allTasks = taskss.getContent();
-		List<TasksDto> tasksDtos = allTasks.stream().map(tasks -> this.modelMapper.map(tasks, TasksDto.class))
+		List<Object> tasksDtos = allTasks.stream().map(tasks -> this.modelMapper.map(tasks, TasksDto.class))
 				.collect(Collectors.toList());
 		PaginationResponse paginationResopnse = new PaginationResponse();
 		paginationResopnse.setContent(tasksDtos);
 		paginationResopnse.setPageNumber(taskss.getNumber());
 		paginationResopnse.setPageSize(taskss.getSize());
-		paginationResopnse.setTotalElemenet(taskss.getTotalElements());
+		paginationResopnse.setTotalElement(taskss.getTotalElements());
 		paginationResopnse.setTotalPage(taskss.getTotalPages());
 		paginationResopnse.setLastPage(taskss.isLast());
 

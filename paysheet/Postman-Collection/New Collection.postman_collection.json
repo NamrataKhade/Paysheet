@@ -177,6 +177,14 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Swagger Api-Test",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }

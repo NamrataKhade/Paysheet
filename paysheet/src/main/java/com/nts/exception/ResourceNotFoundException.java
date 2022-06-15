@@ -15,4 +15,5 @@ public class ResourceNotFoundException extends RuntimeException {
 		this.name = name;
 		this.status = status;
 	}
+
 }
