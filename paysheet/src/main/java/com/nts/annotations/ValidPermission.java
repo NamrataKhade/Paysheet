@@ -11,15 +11,15 @@ import javax.validation.Payload;
 
 import com.nts.validator.PermissionValidator;
 
-@Target({ ElementType.FIELD, ElementType.METHOD , ElementType.PARAMETER, ElementType.TYPE_USE})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE_USE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PermissionValidator.class)
 @Documented
 public @interface ValidPermission {
-	
-	 String message() default "Invalid permission";
 
-	  Class<?>[] groups() default { };
+	String message() default "Invalid permission";
 
-	  Class<? extends Payload>[] payload() default { };
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
 }

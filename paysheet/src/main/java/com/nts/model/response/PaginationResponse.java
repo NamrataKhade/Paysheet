@@ -2,19 +2,18 @@ package com.nts.model.response;
 
 import java.util.List;
 
-import com.nts.model.dto.ProjectsDto;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @NoArgsConstructor
-@Data 
 public class PaginationResponse {
 
-	private List<ProjectsDto> content;
+	private List<Object> content;
 	private int pageNumber;
 	private int pageSize;
-	private long totalElements;
-	private int totalPages;
+	private long totalElement;
+	private int totalPage;
 	private boolean lastPage;
+
 }

@@ -77,7 +77,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 		Page<Projects> projects = projectsRepository.findAll(pageable);
-		List<ProjectsDto> projectsDtos = projects.stream().map((pro) -> this.modelMapper.map(pro, ProjectsDto.class))
+		List<Object> projectsDtos = projects.stream().map((pro) -> this.modelMapper.map(pro, ProjectsDto.class))
 				.collect(Collectors.toList());
 		List<Projects> allProjects = projects.getContent();
 
@@ -85,8 +85,8 @@ public class ProjectsServiceImpl implements ProjectsService {
 		paginationResponse.setContent(projectsDtos);
 		paginationResponse.setPageNumber(projects.getNumber());
 		paginationResponse.setPageSize(projects.getSize());
-		paginationResponse.setTotalElements(projects.getTotalElements());
-		paginationResponse.setTotalPages(projects.getTotalPages());
+		paginationResponse.setTotalElement(projects.getTotalElements());
+		paginationResponse.setTotalPage(projects.getTotalPages());
 		paginationResponse.setLastPage(projects.isLast());
 
 		return paginationResponse;

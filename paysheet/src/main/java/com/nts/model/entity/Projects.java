@@ -1,11 +1,15 @@
 package com.nts.model.entity;
 
 import java.util.Date;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data

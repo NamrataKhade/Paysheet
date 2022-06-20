@@ -13,17 +13,18 @@ import javax.validation.Payload;
 import com.nts.validator.ValidLessThanDateValidator;
 
 @Repeatable(value = ValidationOnDates.class)
-@Target({ ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidLessThanDateValidator.class)
 @Documented
 public @interface ValidLessThanDate {
-	 String message() default "Invalid Dates";
+	String message() default "Invalid Dates";
 
-	  Class<?>[] groups() default { };
+	Class<?>[] groups() default {};
 
-	  Class<? extends Payload>[] payload() default { };
-	  
-	  String startDate();
-	  String endDate();
+	Class<? extends Payload>[] payload() default {};
+
+	String startDate();
+
+	String endDate();
 }
