@@ -11,15 +11,15 @@ import javax.validation.Payload;
 
 import com.nts.validator.IsValidDateValidator;
 
-@Target({ ElementType.FIELD, ElementType.METHOD , ElementType.PARAMETER})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = IsValidDateValidator.class)
 @Documented
 public @interface IsValidDate {
-	
+
 	String message() default "Invalid Date";
 
-	  Class<?>[] groups() default { };
+	Class<?>[] groups() default {};
 
-	  Class<? extends Payload>[] payload() default { };
+	Class<? extends Payload>[] payload() default {};
 }

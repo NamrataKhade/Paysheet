@@ -37,6 +37,7 @@ public class DateUtil {
 	}
 
 	public static void main(String[] args) throws ParseException, InterruptedException {
+
 		/*
 		 * String date = getFormattedDateTimeStamp(); stringToDate(date);
 		 * 
@@ -48,6 +49,7 @@ public class DateUtil {
 		 * 
 		 * System.out.println(daysBetween(subtractDays(startDate, 5), startDate));
 		 */
+
 		Double pageLevelConfidenceSum = 2D;
 		if (pageLevelConfidenceSum < -1D) {
 
@@ -140,6 +142,7 @@ public class DateUtil {
 			e1.printStackTrace();
 		}
 		return receivedDate;
+
 	}
 
 	public static Long dateTimeDifferenceInSeconds(Date startDate, Date endDate) {

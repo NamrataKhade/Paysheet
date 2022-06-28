@@ -16,14 +16,16 @@ class PaysheetApplicationTests {
 
 	@Autowired
 	private PermissionRepository permissionRepository;
+
 	@Test
 	void contextLoads() {
-		
+
 	}
+
 	@Test
 	public void getAllPermission() {
 		List<Permission> findAll = permissionRepository.findAll();
 		Assertions.assertThat(findAll.size()).isGreaterThan(0);
 	}
-	
+
 }

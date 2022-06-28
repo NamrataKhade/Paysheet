@@ -70,7 +70,7 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public List<PermissionDto> getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy,
+	public PermissionResponce getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy,
 			String sortDir) {
 
 		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
@@ -91,7 +91,7 @@ public class PermissionServiceImpl implements PermissionService {
 		permissionResponce.setTotalPages(permissions.getTotalPages());
 		permissionResponce.setLastpage(permissions.isLast());
 
-		return permissionDtos;
+		return permissionResponce;
 	}
 
 	@Override

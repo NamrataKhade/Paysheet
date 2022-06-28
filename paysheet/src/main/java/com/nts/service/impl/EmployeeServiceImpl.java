@@ -2,18 +2,24 @@ package com.nts.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.EmployeeDto;
 import com.nts.model.entity.Employee;
-import com.nts.model.response.EmployeeResponse;
+import com.nts.model.response.PaginationResponse;
 import com.nts.repository.EmployeeRepository;
 import com.nts.service.EmployeeService;
 
@@ -21,108 +27,93 @@ import com.nts.service.EmployeeService;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	@Override
-	public EmployeeResponse createEmployee(Employee employee) {
-		logger.debug("EmployeeServiceImpl | Create Employee Invoked...");
-		EmployeeResponse employeeResponse = new EmployeeResponse();
-		employee.setFirstName(employee.getFirstName());
-		employeeRepository.save(employee);
-		EmployeeDto employeeDto = new EmployeeDto();
-		employeeDto.setEmpId(employee.getEmpId());
-		employeeDto.setFirstName(employee.getFirstName());
-		employeeDto.setMiddleName(employee.getMiddleName());
-		employeeDto.setLastName(employee.getLastName());
-		employeeDto.setGender(employee.getGender());
-		employeeDto.setEmail(employee.getEmail());
-		employeeDto.setStatus(employee.getStatus());
-		employeeDto.setDob(employee.getDob());
-		employeeDto.setDoj(employee.getDoj());
-		employeeDto.setReportingManager(employee.getReportingManager());
-		employeeResponse.setEmployeeDto(employeeDto);
-		return employeeResponse;
 
-	}
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return new User("admin", "password", new ArrayList<>());
-	}
-	@Override
-	public EmployeeResponse getAllEmployeeById(String empId) {
-		Employee employee = employeeRepository.findById(empId)
-				.orElseThrow(() -> new RuntimeException(String.format("Can not find Employee By Id", empId)));
-
-		EmployeeDto employeeDto = new EmployeeDto();
-
-		employeeDto.setEmpId(employee.getEmpId());
-		employeeDto.setFirstName(employee.getFirstName());
-		employeeDto.setMiddleName(employee.getMiddleName());
-		employeeDto.setLastName(employee.getLastName());
-		employeeDto.setGender(employee.getGender());
-		employeeDto.setEmail(employee.getEmail());
-		employeeDto.setStatus(employee.getStatus());
-		employeeDto.setDob(employee.getDob());
-		employeeDto.setDoj(employee.getDoj());
-
-		EmployeeResponse employeeResponse = new EmployeeResponse();
-		employeeResponse.setEmployeeDto(employeeDto);
-
-		return employeeResponse;
-	}
-
-	@Override
-	public List<Employee> getAllEmployee() {
-
-		return employeeRepository.findAll();
-	}
-
-	@Override
-	public EmployeeResponse deleteEmployeeById(String empId) {
-
-		Employee employee = new Employee();
-
-		employeeRepository.deleteById(empId);
-		EmployeeDto employeeDto = new EmployeeDto();
-
-		employeeDto.setEmpId(employee.getEmpId());
-		employeeDto.setFirstName(employee.getFirstName());
-		employeeDto.setMiddleName(employee.getMiddleName());
-		employeeDto.setLastName(employee.getLastName());
-		employeeDto.setGender(employee.getGender());
-		employeeDto.setEmail(employee.getEmail());
-		employeeDto.setStatus(employee.getStatus());
-		employeeDto.setDob(employee.getDob());
-		employeeDto.setDoj(employee.getDoj());
-
-		EmployeeResponse employeeResponse = new EmployeeResponse();
-		employeeResponse.setEmployeeDto(employeeDto);
-
-		return employeeResponse;
 
 	}
 
 	@Override
-	public EmployeeResponse updateEmployee(String empId, Employee employee) {
+	public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+		Employee employee = this.dtoToEmployee(employeeDto);
+		logger.debug("EmployeeServiceImpl | Create Employee Invoked...");
+		Employee savedEmployee = this.employeeRepository.save(employee);
+		return this.employeeToDto(savedEmployee);
+	}
 
-		employee.setEmpId(empId);
+	@Override
+	public EmployeeDto updateEmployee(EmployeeDto employeeDto, String empId) {
 
-		employeeRepository.save(employee);
+		Employee employee = this.employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
 
-		EmployeeDto employeeDto = new EmployeeDto();
-		employeeDto.setEmpId(employee.getEmpId());
-		employeeDto.setFirstName(employee.getFirstName());
-		employeeDto.setMiddleName(employee.getMiddleName());
-		employeeDto.setLastName(employee.getLastName());
-		employeeDto.setGender(employee.getGender());
-		employeeDto.setEmail(employee.getEmail());
-		employeeDto.setStatus(employee.getStatus());
-		employeeDto.setDob(employee.getDob());
-		employeeDto.setDoj(employee.getDoj());
-		employeeDto.setReportingManager(employee.getReportingManager());
-		EmployeeResponse employeeResponse = new EmployeeResponse();
-		employeeResponse.setEmployeeDto(employeeDto);
-		return employeeResponse;
+		employee.setFirstName(employeeDto.getFirstName());
+		employee.setMiddleName(employeeDto.getMiddleName());
+		employee.setLastName(employeeDto.getLastName());
+		employee.setGender(employeeDto.getGender());
+		employee.setEmail(employeeDto.getEmail());
+		employee.setPassword(employeeDto.getPassword());
+		employee.setStatus(employeeDto.getStatus());
+		employee.setDob(employeeDto.getDob());
+		employee.setDoj(employeeDto.getDoj());
+		employee.setReportingManager(employeeDto.getReportingManager());
+		employee.setMobileNumber(empId);
+
+		Employee updatedEmployee = this.employeeRepository.save(employee);
+		EmployeeDto employeeToDto = this.employeeToDto(updatedEmployee);
+
+		return employeeToDto;
+	}
+
+	@Override
+	public EmployeeDto getEmployeeById(String empId) {
+		Employee employee = this.employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
+		return this.employeeToDto(employee);
+	}
+
+	@Override
+	public PaginationResponse getAllEmployee(Integer pageNumber, Integer pageSize, String sortBy, String empId) {
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, org.springframework.data.domain.Sort.by(sortBy));
+		Page<Employee> employees = this.employeeRepository.findAll(pageable);
+		List<Employee> allEmployee = employees.getContent();
+		List<Object> employeeDtos = allEmployee.stream()
+				.map(employee -> this.modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+		PaginationResponse paginationResopnse = new PaginationResponse();
+		paginationResopnse.setContent(employeeDtos);
+		paginationResopnse.setPageNumber(employees.getNumber());
+		paginationResopnse.setPageSize(employees.getSize());
+		paginationResopnse.setTotalElement(employees.getTotalElements());
+		paginationResopnse.setTotalPage(employees.getTotalPages());
+		paginationResopnse.setLastPage(employees.isLast());
+
+		return paginationResopnse;
+	}
+
+	@Override
+	public void deleteEmployee(String empId) {
+		Employee employee = this.employeeRepository.findById(empId)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
+		this.employeeRepository.delete(employee);
+	}
+
+	public Employee dtoToEmployee(EmployeeDto employeeDto) {
+		Employee employee = this.modelMapper.map(employeeDto, Employee.class);
+
+		return employee;
+	}
+
+	public EmployeeDto employeeToDto(Employee employee) {
+		EmployeeDto employeeDto = this.modelMapper.map(employee, EmployeeDto.class);
+
+		return employeeDto;
 	}
 
 }

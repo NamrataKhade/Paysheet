@@ -1,24 +1,22 @@
 package com.nts.service;
 
-import java.util.List;
-
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.nts.model.entity.Employee;
-import com.nts.model.response.EmployeeResponse;
+import com.nts.model.dto.EmployeeDto;
+import com.nts.model.response.PaginationResponse;
 
 @Service
 public interface EmployeeService extends UserDetailsService {
 
-	public EmployeeResponse createEmployee(Employee employee);
+	EmployeeDto createEmployee(EmployeeDto employeeDto);
 
-	public EmployeeResponse getAllEmployeeById(String empId);
+	EmployeeDto updateEmployee(EmployeeDto employeeDto, String empId);
 
-	public List<Employee> getAllEmployee();
+	EmployeeDto getEmployeeById(String empId);
 
-	public EmployeeResponse deleteEmployeeById(String empId);
+	PaginationResponse getAllEmployee(Integer pageNumber, Integer pageSize, String sortBy, String empId);
 
-	public EmployeeResponse updateEmployee(String id, Employee employee);
+	void deleteEmployee(String empId);
 
 }

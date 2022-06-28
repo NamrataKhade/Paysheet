@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.nts.model.dto.PermissionDto;
+import com.nts.model.response.PermissionResponce;
 
 @Service
 public interface PermissionService extends UserDetailsService {
@@ -14,7 +15,7 @@ public interface PermissionService extends UserDetailsService {
 
 	public PermissionDto getPermissionById(String permissionId);
 
-	public List<PermissionDto> getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
+	public PermissionResponce getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 
 	public PermissionDto updatePermission(PermissionDto permissionDto, String permissionId);
 

@@ -1,7 +1,5 @@
 package com.nts.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -23,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.dto.PermissionDto;
 import com.nts.model.response.ApiResponce;
+import com.nts.model.response.PermissionResponce;
 import com.nts.service.PermissionService;
 import com.nts.service.impl.EmployeeServiceImpl;
 import com.nts.validatorgroups.OnCreate;
@@ -70,7 +69,7 @@ public class PermissionController {
 
 		logger.debug("PermissionServiceImpl | Get Permission API");
 		if (null == permissionId || StringUtils.isEmpty(permissionId)) {
-			List<PermissionDto> permission = this.permissionService.getListOfPermission(pageNumber, pageSize, sortBy,
+			PermissionResponce permission = this.permissionService.getListOfPermission(pageNumber, pageSize, sortBy,
 					sortDir);
 
 			return ResponseEntity.ok().body(permission);
