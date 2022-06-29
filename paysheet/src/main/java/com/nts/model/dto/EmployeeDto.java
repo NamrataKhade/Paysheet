@@ -16,7 +16,7 @@ public class EmployeeDto {
 
 	private String empId;
 	@NotEmpty
-	@Size(min=4, message="First name must be min 4 characters")
+	@Size(min = 4, message = "First name must be min 4 characters")
 	private String firstName;
 
 	private String middleName;
@@ -24,7 +24,7 @@ public class EmployeeDto {
 	private String lastName;
 
 	private String gender;
-	@Email(message="Your Email is not valid...")
+	@Email(message = "Your Email is not valid...")
 	private String email;
 	@NotEmpty
 	private String password;
@@ -38,9 +38,9 @@ public class EmployeeDto {
 	private Date doj;
 
 	private String reportingManager;
-	
+
 	@NotEmpty
-	@Size(min = 10,max=10, message="Incurrect mobile number... please try again...!")
+	@Size(min = 10, max = 10, message = "Incurrect mobile number... please try again...!")
 	private String mobileNumber;
 
 }

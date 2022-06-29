@@ -7,8 +7,11 @@ import lombok.Data;
 @Data
 public class RolesAndPermisssions {
 
-	
 	private Set<String> roles;
 
 	private Set<String> permissions;
+
 }
+	
+	
+

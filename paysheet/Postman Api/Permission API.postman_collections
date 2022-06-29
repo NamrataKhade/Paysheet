@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "dc064d1a-df9f-4a59-bf60-0f884c1bea10",
+		"name": "Permission API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/authenticate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\":\"admin\",\r\n    \"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/authenticate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/permission/getAllPermissionList",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/permission/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"permission",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/permission/getPermission/626a7973f41b615e2d6ea9e7",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/permission/?permissionId=6285e5599c4ae845103de7b0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"permission",
+						""
+					],
+					"query": [
+						{
+							"key": "permissionId",
+							"value": "6285e5599c4ae845103de7b0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/permission/deleteById/626a7973f41b615e2d6ea9e7",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/permission/6285e5599c4ae845103de7b0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"permission",
+						"6285e5599c4ae845103de7b0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/permission",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\":\"HR\",\r\n    \"name\":\"Pratiksha\"\r\n   \r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/permission/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"permission",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/permission/update/62739dd8f6fc21422c027cfe",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzMwNjI4MywiaWF0IjoxNjUzMjg4MjgzfQ.LEOEHdolucfYx77VUOJipraF-V3AwgWCoK_jVVIGuO-ZUEylRYE-5f7a2WAfHj6-JcpS6MEdJfkNhE6CUcD1rQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"permissionId\": \"628b30626a1e3a328c771403\",\r\n    \"type\": \"HR\",\r\n    \"name\": \"Pratiksha\",\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/permission/628b30626a1e3a328c771403",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"permission",
+						"628b30626a1e3a328c771403"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

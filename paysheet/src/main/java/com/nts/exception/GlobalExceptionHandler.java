@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.nts.model.response.ApiResponse;
 
 @RestControllerAdvice
-public class GlobleExceptionHandler {
+public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHadler(ResourceNotFoundException ex) {
 		String message = ex.getMessage();

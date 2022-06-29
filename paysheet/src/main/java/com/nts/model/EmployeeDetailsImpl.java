@@ -15,12 +15,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nts.model.entity.Employee;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class EmployeeDetailsImpl implements UserDetails {
+	
 	private static final long serialVersionUID = 1L;
 
 	private String empId;
@@ -37,7 +36,7 @@ public class EmployeeDetailsImpl implements UserDetails {
 
 	@JsonIgnore
 	private String password;
-	
+
 	private String status;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -49,14 +48,15 @@ public class EmployeeDetailsImpl implements UserDetails {
 	private String reportingManager;
 
 	private String mobileNumber;
-	
+
 	private Set<String> permissions;
 	private Set<String> roles;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public EmployeeDetailsImpl(String empId, String firstName, String middleName, String lastName, String gender,
 			String email, String password, String status, Date dob, Date doj, String reportingManager,
-			String mobileNumber, Set<String> roles, Set<String> permissions, Collection<? extends GrantedAuthority> authorities) {
+			String mobileNumber, Set<String> roles, Set<String> permissions,
+			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.empId = empId;
 		this.firstName = firstName;
@@ -74,18 +74,18 @@ public class EmployeeDetailsImpl implements UserDetails {
 		this.permissions = permissions;
 		this.authorities = authorities;
 	}
-	
+
 	public static EmployeeDetailsImpl build(Employee employee, RolesAndPermisssions rolesAndPermisssions) {
-		if(null == rolesAndPermisssions) {
-			return new EmployeeDetailsImpl(employee.getEmpId(), employee.getFirstName(), employee.getMiddleName(), employee.getLastName(), 
-					employee.getGender(), employee.getEmail(), employee.getPassword(), 
+		if (null == rolesAndPermisssions) {
+			return new EmployeeDetailsImpl(employee.getEmpId(), employee.getFirstName(), employee.getMiddleName(),
+					employee.getLastName(), employee.getGender(), employee.getEmail(), employee.getPassword(),
 					employee.getStatus(), employee.getDob(), employee.getDoj(), employee.getReportingManager(),
 					employee.getMobileNumber(), null, null, null);
 		}
 		List<GrantedAuthority> authorities = rolesAndPermisssions.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
-		return new EmployeeDetailsImpl(employee.getEmpId(), employee.getFirstName(), employee.getMiddleName(), employee.getLastName(), 
-				employee.getGender(), employee.getEmail(), employee.getPassword(), 
+		return new EmployeeDetailsImpl(employee.getEmpId(), employee.getFirstName(), employee.getMiddleName(),
+				employee.getLastName(), employee.getGender(), employee.getEmail(), employee.getPassword(),
 				employee.getStatus(), employee.getDob(), employee.getDoj(), employee.getReportingManager(),
 				employee.getMobileNumber(), null, null, null);
 	}

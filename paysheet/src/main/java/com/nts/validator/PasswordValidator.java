@@ -13,11 +13,10 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if(StringUtils.isEmpty(value)) {
-			
-		return (Pattern.matches("^[a-zA-z0-9]+$",
-				value))? true : false;
-				}
+		if (StringUtils.isEmpty(value)) {
+
+			return (Pattern.matches("^[a-zA-z0-9]+$", value)) ? true : false;
+		}
 		return true;
 	}
 

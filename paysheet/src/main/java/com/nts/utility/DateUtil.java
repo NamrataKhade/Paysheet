@@ -19,9 +19,7 @@ import com.nts.constants.Constants;
 public class DateUtil {
 
 	public static Date getDateTimeStamp() {
-		return java.util.Date
-	      .from(LocalDateTime.now().atZone(ZoneId.systemDefault())
-	      .toInstant());
+		return java.util.Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 	public static String getFormattedDateTimeStamp() {
@@ -30,114 +28,113 @@ public class DateUtil {
 		System.out.println(date);
 		return date;
 	}
-	
+
 	public static Date stringToDate(String date) throws ParseException {
 		SimpleDateFormat f = new SimpleDateFormat(Constants.DATE_FORMAT_YYYY_MM_DD_HH_MM_SS);
 		Date formattedDate = f.parse(date);
 		System.out.println(formattedDate);
 		return formattedDate;
 	}
-	
+
 	public static void main(String[] args) throws ParseException, InterruptedException {
-		/*String date = getFormattedDateTimeStamp();
-		stringToDate(date);
-		
-		Date date1 = new Date();
-		Thread.currentThread().sleep(10000);
-		Date date2 = new Date();
-		System.out.println(dateDifference(date1, date2));
-		
-		Date startDate = new Date();
-		Thread.currentThread().sleep(10000);
-		System.out.println(daysBetweenCurrentDate(startDate));
-		
-		System.out.println(daysBetween(subtractDays(startDate, 5), startDate));
-		*/
+
+		/*
+		 * String date = getFormattedDateTimeStamp(); stringToDate(date);
+		 * 
+		 * Date date1 = new Date(); Thread.currentThread().sleep(10000); Date date2 =
+		 * new Date(); System.out.println(dateDifference(date1, date2));
+		 * 
+		 * Date startDate = new Date(); Thread.currentThread().sleep(10000);
+		 * System.out.println(daysBetweenCurrentDate(startDate));
+		 * 
+		 * System.out.println(daysBetween(subtractDays(startDate, 5), startDate));
+		 */
+
 		Double pageLevelConfidenceSum = 2D;
-		if(pageLevelConfidenceSum < -1D) {
-			
+		if (pageLevelConfidenceSum < -1D) {
+
 			pageLevelConfidenceSum = -1D;
-			
+
 		}
 		System.out.println(pageLevelConfidenceSum);
 	}
-	
-	
+
 	public static Date getDate() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_YYYY_MM_DD);
 		String date = sdf.format(new Date());
 		return sdf.parse(date);
 	}
-	
+
 	public static Date getDate(Date date) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_YYYY_MM_DD);
 		String formattedDate = sdf.format(date);
 		return sdf.parse(formattedDate);
 	}
-	
+
 	public static Date formatDate(Date date, String format) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		String formattedDate = sdf.format(date);
 		return sdf.parse(formattedDate);
 	}
-	
+
 	public static String getformatDateString(Date date, String format) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		String formattedDate = sdf.format(date);
 		return formattedDate;
 	}
+
 	public static List<String> getDateList() {
 		List<String> dateList = new ArrayList<>();
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_YYYY_MM_DD);
-		
+
 		Date today = new Date();
 		dateList.add(sdf.format(today));
-		for(int i = 1; i<7; i++) {
+		for (int i = 1; i < 7; i++) {
 			dateList.add(sdf.format(subtractDays(today, i)));
 		}
 		Collections.sort(dateList);
 		return dateList;
 	}
-	
+
 	public static Date subtractDays(Date date, int days) {
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(date);
 		cal.add(Calendar.DATE, -days);
-				
+
 		return cal.getTime();
 	}
 
 	public static Long dateTimeDifference(Date startDate, Date endDate) {
-		return endDate.getTime() - startDate.getTime(); 
+		return endDate.getTime() - startDate.getTime();
 	}
-	
+
 	/*
-     * Java Method to calculate difference between two dates in Java
-     * without using any third party library.
-     */
-    public static long daysBetween(Date startDate, Date endDate) {
-    	if (null == startDate || null == endDate) {
-    		return 0;
-    	}
-        long difference =  (endDate.getTime() - startDate.getTime()) / 86400000;
-        return Math.abs(difference);
-    }
-    
-    public static long daysBetweenCurrentDate(Date startDate) {
+	 * Java Method to calculate difference between two dates in Java without using
+	 * any third party library.
+	 */
+	public static long daysBetween(Date startDate, Date endDate) {
+		if (null == startDate || null == endDate) {
+			return 0;
+		}
+		long difference = (endDate.getTime() - startDate.getTime()) / 86400000;
+		return Math.abs(difference);
+	}
+
+	public static long daysBetweenCurrentDate(Date startDate) {
 		try {
 			long difference = (getDate().getTime() - formatDate(startDate, Constants.DATE_FORMAT_YYYY_MM_DD).getTime())
-					/86400000;
+					/ 86400000;
 			return Math.abs(difference);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return -1L;        
-    }
-    
-    public static Date convertStringToDate(String dateString) {
+		return -1L;
+	}
+
+	public static Date convertStringToDate(String dateString) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	
+
 		Date receivedDate = null;
 		try {
 			receivedDate = formatter.parse(dateString);
@@ -145,12 +142,14 @@ public class DateUtil {
 			e1.printStackTrace();
 		}
 		return receivedDate;
-    }
-    
-    public static Long dateTimeDifferenceInSeconds(Date startDate, Date endDate) {
-		return ((endDate.getTime() - startDate.getTime()) /1000); 
+
 	}
 
+	public static Long dateTimeDifferenceInSeconds(Date startDate, Date endDate) {
+		return ((endDate.getTime() - startDate.getTime()) / 1000);
+	}
+
+	@SuppressWarnings("deprecation")
 	public static Date convertStringToDate(String dateString, String format) {
 		try {
 			if ("dd-mm-yyyy".equalsIgnoreCase(format)) {
