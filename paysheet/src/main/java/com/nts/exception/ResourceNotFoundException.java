@@ -4,16 +4,20 @@ import lombok.Data;
 
 @Data
 public class ResourceNotFoundException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
-	String tasksid;
-	String name;
-	String status;
 
-	public ResourceNotFoundException(String tasksid, String name, String status) {
-		super(String.format("%s not found with %s : %s", tasksid, name, status));
-		this.tasksid = tasksid;
+	private static final long serialVersionUID = 1L;
+
+	String permissionId;
+
+	String type;
+
+	String name;
+
+	public ResourceNotFoundException(String type, String name, String permissionId2) {
+		super(String.format("%s Found with %s:%s", type, name, permissionId2));
+		this.permissionId = permissionId2;
+		this.type = type;
 		this.name = name;
-		this.status = status;
 	}
 
 }
