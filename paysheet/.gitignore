@@ -35,8 +35,12 @@ build/
 .vscode/
 <<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
 # Created by https://www.toptal.com/developers/gitignore/api/eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse
+>>>>>>> main
 
 ### Eclipse ###
 .metadata
@@ -104,7 +108,10 @@ local.properties
 # Spring Boot Tooling
 .sts4-cache/
 
+<<<<<<< HEAD
+=======
 # End of https://www.toptal.com/developers/gitignore/api/eclipse
 =======
 bin/
+>>>>>>> main
 >>>>>>> main
