@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nts.model.dto.EmployeeDto;
+import com.nts.model.dto.RoleDto;
 import com.nts.model.entity.Role;
 import com.nts.service.impl.RoleServiceImpl;
 
@@ -49,9 +52,10 @@ public class RoleController {
 			@ApiResponse(code = 404, message = "Schema not found"),
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
 			@ApiResponse(code = 500, message = "Internal error") })
-	public ResponseEntity<Object> updateRole(@Valid @RequestBody Role newRole) {
-		logger.info("RoleController: updateRole: API to update a Role");
-		return ResponseEntity.status(HttpStatus.OK).body(roleService.updateRole(newRole));
+	public ResponseEntity<Object> updateRole(@Valid @RequestBody RoleDto newRole, @RequestParam String roleId) {
+		logger.info("RoleController: updateRole: API to update a Role");		
+		RoleDto updatedRole = this.roleService.updateRole(newRole, roleId);
+		return ResponseEntity.ok(updatedRole);
 	}
 
 	@DeleteMapping()
