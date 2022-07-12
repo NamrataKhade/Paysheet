@@ -13,6 +13,6 @@ public interface RoleService extends UserDetailsService {
 	public RoleDto getRoleById(String roleId);
 	public RoleDto getRoleByName(String roleName);
 	public Map<String, Object> getAllRoles(int pageNo, int pageSize, String sortBy);
-	public RoleDto updateRole(Role role);
+	public RoleDto updateRole(RoleDto roleDto, String roleId);
 	public void deleteRole(String roleId);
 }

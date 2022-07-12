@@ -17,7 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nts.exception.ResourceNotFoundException;
+import com.nts.model.dto.EmployeeDto;
 import com.nts.model.dto.RoleDto;
+import com.nts.model.entity.Employee;
 import com.nts.model.entity.Role;
 import com.nts.repository.RoleRepository;
 import com.nts.service.RoleService;
@@ -83,17 +85,18 @@ public class RoleServiceImpl implements RoleService {
 		return response;
 	}
 
+	
 	@Override
-	public RoleDto updateRole(Role role) {
+	public RoleDto updateRole(RoleDto roleDto, String roleId) {
 		logger.debug("RolesServiceImpl: updateRole: Update a Role");
-		Optional<Role> roleOptional = rolesRepository.findById(role.getRoleId());
-		if (roleOptional.isPresent()) {
-			rolesRepository.save(role);
-			Role newRole = roleOptional.get();
-			return entityToModelMapping(newRole);
-		} else {
-			return null;
-		}
+		Role role = this.rolesRepository.findById(roleId)
+				.orElseThrow(() -> new ResourceNotFoundException("Role", "Id", roleId));
+		role.setRoleName(roleDto.getRoleName());
+		role.setStatus(roleDto.getStatus());
+		role.setPermission(roleDto.getPermission());		
+		Role updatedRole = this.rolesRepository.save(role);
+		RoleDto roleToDto = this.entityToModelMapping(updatedRole);
+		return roleToDto;
 	}
 
 	@Override
