@@ -8,11 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "tasks")
-public class Tasks {
+@Document(collection = "task")
+public class Task {
 
 	@Id
-	private String tasksId;
+	private String taskId;
 
 	@NotEmpty
 	private String name;

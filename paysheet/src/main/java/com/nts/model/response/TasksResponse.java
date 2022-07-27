@@ -1,12 +1,12 @@
 package com.nts.model.response;
 
-import com.nts.model.dto.TasksDto;
+import com.nts.model.dto.TaskDto;
 
 import lombok.Data;
 
 @Data
 public class TasksResponse {
 
-	private TasksDto tasksDto;
+	private TaskDto tasksDto;
 
 }
