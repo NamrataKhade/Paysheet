@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.request.LoginRequest;
+import com.nts.model.response.ApiResponse;
 import com.nts.model.response.LoginResponse;
 import com.nts.service.EmployeeService;
 import com.nts.utility.JwtUtils;
@@ -29,7 +30,7 @@ public class AuthController {
 	private EmployeeService employeeService;
 
 	@PostMapping("/authenticate")
-	public LoginResponse authenticate(@RequestBody LoginRequest jwtRequest) throws Exception {
+	public Object authenticate(@RequestBody LoginRequest jwtRequest) throws Exception {
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(jwtRequest.getUserName(), jwtRequest.getPassword()));
@@ -37,9 +38,12 @@ public class AuthController {
 			throw new Exception("INVALID CREDENTIALS ", e);
 		}
 		final UserDetails userDetails = employeeService.loadUserByUsername(jwtRequest.getUserName());
+		if (jwtRequest.getUserName().equals("admin")) {
+			final String token = jwtUtils.generateToken(userDetails);
 
-		final String token = jwtUtils.generateToken(userDetails);
+			return new LoginResponse(token);
+		}
 
-		return new LoginResponse(token);
+		return new ApiResponse("Invalid Input", true);
 	}
 }

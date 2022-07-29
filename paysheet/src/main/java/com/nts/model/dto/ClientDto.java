@@ -1,0 +1,41 @@
+package com.nts.model.dto;
+
+import java.security.Timestamp;
+
+import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Data;
+
+@Data
+public class ClientDto {
+	@Id
+	private String id;
+
+	@NotEmpty
+	private String clientCode;
+	
+	@NotEmpty
+	@Size(min = 5, max = 30, message = "Client Name should be min 4 and max 30!!")
+	private String clientName;
+
+	@NotEmpty
+	private String clientDetail;
+	
+	@CreationTimestamp
+	@Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")
+    private Timestamp createdOn;
+
+    @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")
+    private Timestamp lastUpdatedOn;
+
+}
