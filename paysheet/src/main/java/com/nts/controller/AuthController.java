@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.request.LoginRequest;
 import com.nts.model.response.LoginResponse;
+import com.nts.model.response.Response;
 import com.nts.service.EmployeeService;
 import com.nts.utility.JwtUtils;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200/")
 public class AuthController {
 
 	@Autowired
@@ -29,7 +30,7 @@ public class AuthController {
 	private EmployeeService employeeService;
 
 	@PostMapping("/authenticate")
-	public LoginResponse authenticate(@RequestBody LoginRequest jwtRequest) throws Exception {
+	public Object authenticate(@RequestBody LoginRequest jwtRequest) throws Exception {
 		try {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(jwtRequest.getUserName(), jwtRequest.getPassword()));
@@ -37,9 +38,16 @@ public class AuthController {
 			throw new Exception("INVALID CREDENTIALS ", e);
 		}
 		final UserDetails userDetails = employeeService.loadUserByUsername(jwtRequest.getUserName());
+		
+		if(jwtRequest.getUserName().equals(userDetails.getUsername()))
+		{
+			final String token = jwtUtils.generateToken(userDetails);
 
-		final String token = jwtUtils.generateToken(userDetails);
+			return new LoginResponse(token);
+		}
+		
+		return new Response("Invalid UserName",true);
 
-		return new LoginResponse(token);
 	}
+		
 }

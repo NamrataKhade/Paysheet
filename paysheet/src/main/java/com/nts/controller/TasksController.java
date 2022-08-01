@@ -66,10 +66,10 @@ public class TasksController {
 
 	// DELETE
 	@DeleteMapping("/{tasksId}")
-	public ResponseEntity<com.nts.model.response.ApiResponse> deleteTasks(@PathVariable String tasksId) {
+	public ResponseEntity<com.nts.model.response.Response> deleteTasks(@PathVariable String tasksId) {
 		this.tasksService.deleteTasks(tasksId);
-		return new ResponseEntity<com.nts.model.response.ApiResponse>(
-				new com.nts.model.response.ApiResponse("Employee successfully deleted", true), HttpStatus.OK);
+		return new ResponseEntity<com.nts.model.response.Response>(
+				new com.nts.model.response.Response("Employee successfully deleted", true), HttpStatus.OK);
 	}
 
 }

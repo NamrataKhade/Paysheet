@@ -1,5 +1,8 @@
 package com.nts.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -9,7 +12,11 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -17,6 +24,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 
 public class SwaggerConfiguration implements WebMvcConfigurer {
+	public static final String AUTHORIZATION_HEADER = "authorization";
+
+	private ApiKey apiKeys() {
+		return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
+	}
+
+	private List<SecurityContext> securityContext() {
+		return Arrays.asList(SecurityContext.builder().securityReferences(sf()).build());
+	}
+
+	private List<SecurityReference> sf() {
+
+		AuthorizationScope scope = new AuthorizationScope("globle", "accessEverithing");
+		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+		authorizationScopes[0] = scope;
+		return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -29,7 +53,8 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
 	@Bean
 	public Docket apiDocket() {
 
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo()).select()
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo()).securityContexts(securityContext())
+				.securitySchemes(Arrays.asList(apiKeys())).select()
 				.apis(RequestHandlerSelectors.basePackage("com.nts.controller")).paths(PathSelectors.any()).build();
 	}
 

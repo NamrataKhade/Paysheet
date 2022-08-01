@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.nts.exception.ResourceNotFoundExpection;
+import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.ProjectsDto;
 import com.nts.model.entity.Projects;
 import com.nts.model.response.PaginationResponse;
@@ -45,7 +45,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 
 		logger.debug("ProjectsServiceImpl | Create Employee Invoked...");
 		if (projectsDto.getProjectId() != null) {
-			throw new ResourceNotFoundExpection("Project is ", "Id", projectsDto.getProjectId());
+			throw new ResourceNotFoundException("Projects", "Id", projectsDto.getProjectId());
 
 		}
 
@@ -60,7 +60,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 	public ProjectsDto getProjectsById(String proId) {
 
 		Projects projects = projectsRepository.findById(proId)
-				.orElseThrow(() -> new ResourceNotFoundExpection("Project is NOT", "Id", proId));
+				.orElseThrow(() -> new ResourceNotFoundException("Project is NOT", "Id", proId));
 
 		return this.modelMapper.map(projects, ProjectsDto.class);
 
@@ -96,7 +96,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 	@Override
 	public ProjectsDto updateProjects(String proId, ProjectsDto projectsDto) {
 		Projects project = projectsRepository.findById(proId)
-				.orElseThrow(() -> new ResourceNotFoundExpection("Project is NOT", "Id", proId));
+				.orElseThrow(() -> new ResourceNotFoundException("Project is NOT", "Id", proId));
 
 		project.setName(projectsDto.getName());
 		project.setTask(projectsDto.getTask());
@@ -116,7 +116,7 @@ public class ProjectsServiceImpl implements ProjectsService {
 
 		Projects projects = new Projects();
 		projectsRepository.findById(proId)
-				.orElseThrow(() -> new ResourceNotFoundExpection("Project is NOT ", "Id", proId));
+				.orElseThrow(() -> new ResourceNotFoundException("Project is NOT ", "Id", proId));
 		this.projectsRepository.deleteById(proId);
 
 	}

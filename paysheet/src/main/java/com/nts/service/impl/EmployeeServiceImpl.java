@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setDob(employeeDto.getDob());
 		employee.setDoj(employeeDto.getDoj());
 		employee.setReportingManager(employeeDto.getReportingManager());
-		employee.setMobileNumber(empId);
+		employee.setMobileNumber(employeeDto.getMobileNumber());
 
 		Employee updatedEmployee = this.employeeRepository.save(employee);
 		EmployeeDto employeeToDto = this.employeeToDto(updatedEmployee);

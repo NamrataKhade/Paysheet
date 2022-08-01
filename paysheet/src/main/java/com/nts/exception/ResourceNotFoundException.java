@@ -7,17 +7,17 @@ public class ResourceNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	String permissionId;
+	String resourceName;
 
-	String type;
+	String fieldName;
 
-	String name;
+	String fieldValue;
 
-	public ResourceNotFoundException(String type, String name, String permissionId2) {
-		super(String.format("%s Found with %s:%s", type, name, permissionId2));
-		this.permissionId = permissionId2;
-		this.type = type;
-		this.name = name;
+	public ResourceNotFoundException(String resourceName1, String tyfieldNamepe1, String fieldValue1) {
+		super(String.format("%s Found with %s:%s", resourceName1, tyfieldNamepe1, fieldValue1));
+		this.resourceName = resourceName1;
+		this.fieldName = tyfieldNamepe1;
+		this.fieldValue = fieldValue1;
 	}
 
 }
