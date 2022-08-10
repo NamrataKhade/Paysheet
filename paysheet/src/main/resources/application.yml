@@ -1,5 +1,4 @@
-server:
-  port : 9090
+
 
 spring:
   data:
@@ -8,9 +7,9 @@ spring:
       client: mongodb://localhost:27017
       database: paysheet-dev
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+mvc:
+   pathmatch:
+     matching-strategy: ant_path_matcher
 
 jwt:
  jwtSecret: intellidocsSecretKey
