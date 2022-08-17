@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.nts.service.EmployeeService;
+import com.nts.service.CustomEmployeeDetailsService;
 import com.nts.utility.JwtUtils;
 
 @Component
@@ -25,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	private JwtUtils jwtUtils;
 
 	@Autowired
-	private EmployeeService employeeService;
+	private CustomEmployeeDetailsService customEmployeeDetailsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
@@ -40,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		}
 
 		if (null != userName && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = employeeService.loadUserByUsername(userName);
+			UserDetails userDetails = customEmployeeDetailsService.loadUserByUsername(userName);
 
 			if (jwtUtils.validateToken(token, userDetails)) {
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

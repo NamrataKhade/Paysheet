@@ -1,32 +1,27 @@
 package com.nts.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.EmployeeDto;
 import com.nts.model.entity.Employee;
 import com.nts.model.response.PaginationResponse;
+import com.nts.model.response.Response;
 import com.nts.repository.EmployeeRepository;
 import com.nts.service.EmployeeService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-
-	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
@@ -35,48 +30,41 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return new User("admin", "password", new ArrayList<>());
-
-	}
-
-	@Override
-	public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-		Employee employee = this.dtoToEmployee(employeeDto);
-		logger.debug("EmployeeServiceImpl | Create Employee Invoked...");
-		Employee savedEmployee = this.employeeRepository.save(employee);
-		return this.employeeToDto(savedEmployee);
+	public ResponseEntity<Object> createEmployee(EmployeeDto employeeDto, String email) {
+		try {
+			Employee employee = modelMapper.map(employeeDto, Employee.class);
+			Employee save = employeeRepository.save(employee);
+			modelMapper.map(save, EmployeeDto.class);
+			return new ResponseEntity<Object>(
+					new Response("Create Employee with Email Id: " + employeeDto.getEmail(), true), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(new Response("Email Id exits :" + employeeDto.getEmail(), false),
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@Override
 	public EmployeeDto updateEmployee(EmployeeDto employeeDto, String empId) {
 
-		Employee employee = this.employeeRepository.findById(empId)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
-
-		employee.setFirstName(employeeDto.getFirstName());
-		employee.setMiddleName(employeeDto.getMiddleName());
-		employee.setLastName(employeeDto.getLastName());
-		employee.setGender(employeeDto.getGender());
-		employee.setEmail(employeeDto.getEmail());
-		employee.setPassword(employeeDto.getPassword());
-		employee.setStatus(employeeDto.getStatus());
-		employee.setDob(employeeDto.getDob());
-		employee.setDoj(employeeDto.getDoj());
-		employee.setReportingManager(employeeDto.getReportingManager());
-		employee.setMobileNumber(employeeDto.getMobileNumber());
-
-		Employee updatedEmployee = this.employeeRepository.save(employee);
-		EmployeeDto employeeToDto = this.employeeToDto(updatedEmployee);
-
-		return employeeToDto;
+		try {
+			Employee employee = employeeRepository.findById(empId)
+					.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
+			modelMapper.map(employeeDto, employee);
+			Employee updatedEmployee = employeeRepository.save(employee);
+			return modelMapper.map(updatedEmployee, EmployeeDto.class);
+		} catch (Exception e) {
+			throw new ResourceNotFoundException("Something went wrong", "Id", empId);
+		}
 	}
 
 	@Override
 	public EmployeeDto getEmployeeById(String empId) {
-		Employee employee = this.employeeRepository.findById(empId)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
-		return this.employeeToDto(employee);
+		if (empId != null) {
+			Employee employee = this.employeeRepository.findById(empId)
+					.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
+			return this.employeeToDto(employee);
+		}
+		throw new ResourceNotFoundException("empId NOT found ", "Id", empId);
 	}
 
 	@Override
@@ -101,19 +89,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void deleteEmployee(String empId) {
 		Employee employee = this.employeeRepository.findById(empId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", empId));
-		this.employeeRepository.delete(employee);
+		employeeRepository.delete(employee);
 	}
 
 	public Employee dtoToEmployee(EmployeeDto employeeDto) {
-		Employee employee = this.modelMapper.map(employeeDto, Employee.class);
-
+		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		return employee;
 	}
 
 	public EmployeeDto employeeToDto(Employee employee) {
-		EmployeeDto employeeDto = this.modelMapper.map(employee, EmployeeDto.class);
-
+		EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
 		return employeeDto;
+	}
+
+	public void copyObject(Employee employee, EmployeeDto employeeDto) {
+		modelMapper.map(employeeDto, employee);
 	}
 
 }

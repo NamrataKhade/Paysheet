@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.nts.service.EmployeeService;
+import com.nts.service.CustomEmployeeDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //	New
 	public static final String[] PUBLIC_URLS = { "/api/v1/auth/**", "/v2/api-docs",
 
-			"/swagger-resources/**", "/swagger-ui/**", "/webjars/**","/swagger-ui.html"
+			"/swagger-resources/**", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html"
 
 	};
 
 	@Autowired
-	private EmployeeService employeeService;
+	private CustomEmployeeDetailsService customEmployeeDetailsService;
 	@Autowired
 	private JwtFilter jwtFilter;
 	@Autowired
@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(employeeService);
+		auth.userDetailsService(customEmployeeDetailsService);
 	}
 
 	@Override
@@ -58,9 +58,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().disable().csrf().disable().authorizeHttpRequests()
-				.antMatchers(HttpMethod.POST, "/authenticate", "/").permitAll()
-				.antMatchers(PUBLIC_URLS).permitAll()
-				.antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and().exceptionHandling()
+				.antMatchers(HttpMethod.POST, "/authenticate", "/").permitAll().antMatchers(PUBLIC_URLS).permitAll()
+				.antMatchers("/employee/**").hasAnyAuthority("admin", "user")
+				.antMatchers(HttpMethod.OPTIONS)
+				.permitAll().anyRequest().authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -1,5 +1,7 @@
 package com.nts.model.entity;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +25,7 @@ public class Role {
 	@NotEmpty(message = "Please Provide the Status")
 	private String status;
 
-	@NotNull
-	@NotEmpty(message = "Please Provide the Permission")
-	private String permission;
+	@NotEmpty(message = "permissions must not be empty")
+	private List<String> permissions;
 
 }

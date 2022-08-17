@@ -31,10 +31,10 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
 	}
 
 	private List<SecurityContext> securityContext() {
-		return Arrays.asList(SecurityContext.builder().securityReferences(sf()).build());
+		return Arrays.asList(SecurityContext.builder().securityReferences(swagger()).build());
 	}
 
-	private List<SecurityReference> sf() {
+	private List<SecurityReference> swagger() {
 
 		AuthorizationScope scope = new AuthorizationScope("globle", "accessEverithing");
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];

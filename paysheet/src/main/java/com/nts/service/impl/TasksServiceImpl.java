@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nts.exception.ResourceNotFoundException;
@@ -32,12 +30,6 @@ public class TasksServiceImpl implements TasksService {
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
-	}
-
-	// ************************CREATE*************************
-	@Override
 	public TasksDto createTasks(TasksDto tasksDto) {
 		logger.debug("TasksServiceImpl | Create Tasks Invoked...");
 		Tasks tasks = this.dtoToTask(tasksDto);
@@ -45,7 +37,6 @@ public class TasksServiceImpl implements TasksService {
 		return this.tasksToDto(createTask);
 	}
 
-	// **********************UPDATE********************************
 	@Override
 	public TasksDto updateTasks(TasksDto tasksDto, String tasksId) {
 		Tasks tasks = this.tasksRepository.findById(tasksId).orElse(null);
@@ -59,15 +50,12 @@ public class TasksServiceImpl implements TasksService {
 		return tasksToDto;
 	}
 
-	// **********************GETTASKSBYID********************************
 	@Override
 	public TasksDto getTaskById(String tasksId) {
 		Tasks tasks = this.tasksRepository.findById(tasksId)
 				.orElseThrow(() -> new ResourceNotFoundException("Tasks", "id", tasksId));
 		return this.tasksToDto(tasks);
 	}
-
-	// **********************GETALLTASKS********************************
 
 	@Override
 	public PaginationResponse getAllTasks(Integer pageNumber, Integer pageSize, String sortBy, String tasksId) {
@@ -88,7 +76,6 @@ public class TasksServiceImpl implements TasksService {
 		return paginationResopnse;
 	}
 
-	// **********************DELETE********************************
 	@Override
 	public void deleteTasks(String tasksId) {
 		Tasks tasks = this.tasksRepository.findById(tasksId)

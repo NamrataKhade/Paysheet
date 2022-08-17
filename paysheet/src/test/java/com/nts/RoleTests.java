@@ -24,7 +24,7 @@ class RoleTests {
 		role.setRoleId("100");
 		role.setRoleName("Junit");
 		role.setStatus("Test");
-		role.setPermission("User");
+		role.setPermissions(null);
 		roleRepository.save(role);
 		Role savedRoles = roleRepository.findById("100").get();
 		assertNotNull(savedRoles);

@@ -1,13 +1,12 @@
 package com.nts.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.nts.model.dto.TasksDto;
 import com.nts.model.response.PaginationResponse;
 
 @Service
-public interface TasksService extends UserDetailsService {
+public interface TasksService {
 
 	public TasksDto createTasks(TasksDto tasksDto);
 

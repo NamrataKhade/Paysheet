@@ -1,6 +1,5 @@
 package com.nts.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,9 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nts.exception.ResourceNotFoundException;
@@ -34,11 +30,6 @@ public class ProjectsServiceImpl implements ProjectsService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return new User("admin", "password", new ArrayList<>());
-	}
 
 	@Override
 	public ProjectsDto createProjects(ProjectsDto projectsDto) {
@@ -119,6 +110,11 @@ public class ProjectsServiceImpl implements ProjectsService {
 				.orElseThrow(() -> new ResourceNotFoundException("Project is NOT ", "Id", proId));
 		this.projectsRepository.deleteById(proId);
 
+	}
+
+	@Override
+	public List<Projects> findAllByUserName(String username) {
+		return projectsRepository.findByRolesUsers(username);
 	}
 
 }

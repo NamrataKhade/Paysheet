@@ -8,4 +8,6 @@ import com.nts.model.entity.Employee;
 @Repository
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 
+	public Employee findByEmail(String email);
+
 }
