@@ -1,5 +1,6 @@
 package com.nts.controller;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +41,9 @@ public class EmployeeController {
 
 //	createEmployee
 	@PostMapping()
-	@PreAuthorize("hasAuthority('admin')")
+	@PreAuthorize("hasAnyAuthority('admin')")
+	@RolesAllowed({ "admin" })
+	@Secured({ "admin" })
 	@ApiOperation(value = "Create Employee", nickname = "CreateEmployee")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
@@ -53,7 +57,9 @@ public class EmployeeController {
 
 //	updateEmployee
 	@PutMapping("/{empId}")
-	@PreAuthorize("hasAuthority('admin')")
+	@PreAuthorize("hasAnyAuthority('admin')")
+	@RolesAllowed({ "admin" })
+	@Secured({ "admin" })
 	@ApiOperation(value = "Update Employee", nickname = "UpdateEmployee")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
@@ -93,7 +99,9 @@ public class EmployeeController {
 
 //	Delete
 	@DeleteMapping("/{empId}")
-	@PreAuthorize("hasAuthority('admin')")
+	@PreAuthorize("hasAnyAuthority('admin')")
+	@RolesAllowed({ "admin" })
+	@Secured({ "admin" })
 	public ResponseEntity<Response> deleteEmployee(@PathVariable String empId) {
 		employeeService.deleteEmployee(empId);
 		return new ResponseEntity<Response>(new Response("Employee successfully deleted", true), HttpStatus.OK);

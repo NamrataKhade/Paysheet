@@ -1,5 +1,7 @@
 package com.nts;
 
+import java.util.Arrays;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,10 +30,12 @@ public class PaysheetApplication {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.addAllowedOrigin("*");
 		corsConfiguration.addAllowedHeader("*");
-		corsConfiguration.addAllowedMethod("GET");
-		corsConfiguration.addAllowedMethod("POST");
-		corsConfiguration.addAllowedMethod("PUT");
-		corsConfiguration.addAllowedMethod("DELETE");
+		corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//		corsConfiguration.addAllowedMethod("GET");
+//		corsConfiguration.addAllowedMethod("POST");
+//		corsConfiguration.addAllowedMethod("PUT");
+//		corsConfiguration.addAllowedMethod("DELETE");
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<>(
 				new CorsFilter(urlBasedCorsConfigurationSource));
