@@ -76,14 +76,14 @@ public class RoleController {
 		if (roleId == null || roleId.isEmpty()) {
 			if (roleName == null || roleName.isEmpty()) {
 				logger.info("RoleController: getRole: API to find All Roles");
-				return ResponseEntity.status(HttpStatus.FOUND)
+				return ResponseEntity.status(HttpStatus.OK)
 						.body(roleService.getAllRoles(pageNumber, pageSize, sortBy));
 			}
 			logger.info("RoleController: getRole: API to find Role by Name");
-			return ResponseEntity.status(HttpStatus.FOUND).body(roleService.getRoleByName(roleName));
+			return ResponseEntity.status(HttpStatus.OK).body(roleService.getRoleByName(roleName));
 		} else {
 			logger.info("RoleController: getRole: API to find Role by Id");
-			return ResponseEntity.status(HttpStatus.FOUND).body(roleService.getRoleById(roleId));
+			return ResponseEntity.status(HttpStatus.OK).body(roleService.getRoleById(roleId));
 		}
 	}
 }

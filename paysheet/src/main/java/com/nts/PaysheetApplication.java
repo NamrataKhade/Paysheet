@@ -32,10 +32,6 @@ public class PaysheetApplication {
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
 		corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-//		corsConfiguration.addAllowedMethod("GET");
-//		corsConfiguration.addAllowedMethod("POST");
-//		corsConfiguration.addAllowedMethod("PUT");
-//		corsConfiguration.addAllowedMethod("DELETE");
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		FilterRegistrationBean<CorsFilter> filterRegistrationBean = new FilterRegistrationBean<>(
 				new CorsFilter(urlBasedCorsConfigurationSource));
