@@ -5,8 +5,8 @@ import com.nts.model.dto.TaskDto;
 import lombok.Data;
 
 @Data
-public class TasksResponse {
+public class TaskResponse {
 
-	private TaskDto tasksDto;
+	private TaskDto taskDto;
 
 }

@@ -1,3 +1,5 @@
+
+
 spring:
   data:
     mongodb:
@@ -5,10 +7,12 @@ spring:
       client: mongodb://localhost:27017
       database: paysheet-dev
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+mvc:
+   pathmatch:
+     matching-strategy: ant_path_matcher
 
 jwt:
  jwtSecret: intellidocsSecretKey
  jwtExpirationMs: 36000000
+ 
+  

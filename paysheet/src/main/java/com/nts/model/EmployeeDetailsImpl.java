@@ -19,6 +19,7 @@ import lombok.Data;
 
 @Data
 public class EmployeeDetailsImpl implements UserDetails {
+
 	private static final long serialVersionUID = 1L;
 
 	private String empId;

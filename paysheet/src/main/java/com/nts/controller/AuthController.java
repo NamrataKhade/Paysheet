@@ -17,7 +17,6 @@ import com.nts.service.EmployeeService;
 import com.nts.utility.JwtUtils;
 
 @RestController
-@CrossOrigin
 public class AuthController {
 
 	@Autowired
