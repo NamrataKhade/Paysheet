@@ -10,15 +10,15 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.nts.model.response.ApiResponse;
+import com.nts.model.response.Response;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHadler(ResourceNotFoundException ex) {
+	public ResponseEntity<Response> resourceNotFoundExceptionHadler(ResourceNotFoundException ex) {
 		String message = ex.getMessage();
-		ApiResponse apiResponse = new ApiResponse(message, false);
-		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
+		Response apiResponse = new Response(message, false);
+		return new ResponseEntity<Response>(apiResponse, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)

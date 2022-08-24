@@ -1,17 +1,15 @@
 package com.nts.model.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
 public class RoleDto {
 
 	@Id
@@ -25,7 +23,6 @@ public class RoleDto {
 	@NotEmpty(message = "Please Provide the Status")
 	private String status;
 
-	@NotNull
-	@NotEmpty(message = "Please Provide the Permission")
-	private String permission;
+	@NotEmpty(message = "permissions must not be empty")
+	private List<String> permissions;
 }

@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.TaskDto;
 import com.nts.model.entity.Task;
-import com.nts.model.response.ApiResponse;
 import com.nts.model.response.PaginationResponse;
+import com.nts.model.response.Response;
 import com.nts.repository.TaskRepository;
 import com.nts.service.TaskService;
 
@@ -50,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
 			Task task = this.modelMapper.map(taskDto, Task.class);
 			Task createTask = this.taskRepository.save(task);
 			this.modelMapper.map(createTask, taskDto);
-			return new ResponseEntity<Object>(new ApiResponse("Create Task", true), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(new Response("Create Task", true), HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error("ClentServiceImpl | Client Is already there");
 			throw new ResourceNotFoundException("Client is already", "id", taskDto.getTaskId());
@@ -68,10 +68,10 @@ public class TaskServiceImpl implements TaskService {
 			task.setProjectId(taskDto.getProjectId());
 			Task save = this.taskRepository.save(task);
 			modelMapper.map(save, TaskDto.class);
-			return new ResponseEntity<Object>(new ApiResponse("Update Task Success", true), HttpStatus.OK);
+			return new ResponseEntity<Object>(new Response("Update Task Success", true), HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("TaskServiceImpl | Something wrong in update Task");
-			return new ResponseEntity<Object>(new ApiResponse("Somting Wrong", true), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(new Response("Somting Wrong", true), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
 			this.taskRepository.findById(taskId)
 					.orElseThrow(() -> new ResourceNotFoundException("Task is Not", "id", taskId));
 		}
-		return new ResponseEntity<Object>(new ApiResponse("Deleted Sucessfully", true),
+		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}

@@ -19,7 +19,7 @@ import lombok.Data;
 
 @Data
 public class EmployeeDetailsImpl implements UserDetails {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String empId;
@@ -49,8 +49,10 @@ public class EmployeeDetailsImpl implements UserDetails {
 
 	private String mobileNumber;
 
-	private Set<String> permissions;
 	private Set<String> roles;
+
+	private Set<String> permissions;
+
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public EmployeeDetailsImpl(String empId, String firstName, String middleName, String lastName, String gender,
@@ -73,6 +75,7 @@ public class EmployeeDetailsImpl implements UserDetails {
 		this.roles = roles;
 		this.permissions = permissions;
 		this.authorities = authorities;
+
 	}
 
 	public static EmployeeDetailsImpl build(Employee employee, RolesAndPermisssions rolesAndPermisssions) {
@@ -82,12 +85,15 @@ public class EmployeeDetailsImpl implements UserDetails {
 					employee.getStatus(), employee.getDob(), employee.getDoj(), employee.getReportingManager(),
 					employee.getMobileNumber(), null, null, null);
 		}
+
 		List<GrantedAuthority> authorities = rolesAndPermisssions.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
+				.map(roles -> new SimpleGrantedAuthority(roles)).collect(Collectors.toList());
+
 		return new EmployeeDetailsImpl(employee.getEmpId(), employee.getFirstName(), employee.getMiddleName(),
 				employee.getLastName(), employee.getGender(), employee.getEmail(), employee.getPassword(),
 				employee.getStatus(), employee.getDob(), employee.getDoj(), employee.getReportingManager(),
-				employee.getMobileNumber(), null, null, null);
+				employee.getMobileNumber(), rolesAndPermisssions.getRoles(), rolesAndPermisssions.getPermissions(),
+				authorities);
 	}
 
 	@Override
@@ -100,7 +106,6 @@ public class EmployeeDetailsImpl implements UserDetails {
 		return password;
 	}
 
-	@Override
 	public String getUsername() {
 		return email;
 	}

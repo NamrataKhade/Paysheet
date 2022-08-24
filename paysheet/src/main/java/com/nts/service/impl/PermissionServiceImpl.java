@@ -1,6 +1,5 @@
 package com.nts.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,9 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nts.exception.ResourceNotFoundException;
@@ -36,15 +32,7 @@ public class PermissionServiceImpl implements PermissionService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		return new User("admin", "password", new ArrayList<>());
-
-	}
-
-	@Override
 	public PermissionDto createPermission(PermissionDto permissionDto) {
-		
 
 		logger.debug("PermissionServiceImpl | Create Permission Invoked...");
 
@@ -70,8 +58,7 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public PermissionResponce getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy,
-			String sortDir) {
+	public PermissionResponce getListOfPermission(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
 
 		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 

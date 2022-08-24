@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nts.model.dto.PermissionDto;
-import com.nts.model.response.ApiResponce;
 import com.nts.model.response.PermissionResponce;
+import com.nts.model.response.Response;
 import com.nts.service.PermissionService;
 import com.nts.service.impl.EmployeeServiceImpl;
 import com.nts.validatorgroups.OnCreate;
@@ -106,7 +106,7 @@ public class PermissionController {
 	public ResponseEntity<Object> deleteById(@PathVariable String permissionId) {
 		logger.debug("PermissionServiceImpl | Delete Permission API");
 		this.permissionService.deletedPermission(permissionId);
-		return new ResponseEntity<Object>(new ApiResponce("Permission Deleted successfully", true), HttpStatus.OK);
+		return new ResponseEntity<Object>(new Response("Permission Deleted successfully", true), HttpStatus.OK);
 
 	}
 

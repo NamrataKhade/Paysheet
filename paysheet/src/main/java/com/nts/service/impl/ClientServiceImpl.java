@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.ClientDto;
 import com.nts.model.entity.Client;
-import com.nts.model.response.ApiResponse;
 import com.nts.model.response.PaginationResponse;
+import com.nts.model.response.Response;
 import com.nts.repository.ClientRepository;
 import com.nts.service.ClientService;
 
@@ -54,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
 			Client client = this.modelMapper.map(clientDto, Client.class);
 			Client createClient = this.clientRepository.save(client);
 			this.modelMapper.map(createClient, clientDto);
-			return new ResponseEntity<Object>(new ApiResponse("Create Client", true), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(new Response("Create Client", true), HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error("ClentServiceImpl | Client Is already there");
 			throw new ResourceNotFoundException("Client is already", "id", clientDto.getId());
@@ -72,10 +72,10 @@ public class ClientServiceImpl implements ClientService {
 			client.setClientDetail(clientDto.getClientDetail());
 			Client save = this.clientRepository.save(client);
 			modelMapper.map(save, ClientDto.class);
-			return new ResponseEntity<Object>(new ApiResponse("Update Client Success", true), HttpStatus.OK);
+			return new ResponseEntity<Object>(new Response("Update Client Success", true), HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("PermissionServiceImpl | Something wrong in update Client");
-			return new ResponseEntity<Object>(new ApiResponse("Somting Wrong", true), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Object>(new Response("Somting Wrong", true), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -114,8 +114,7 @@ public class ClientServiceImpl implements ClientService {
 			this.clientRepository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Client is Not", "id", id));
 		}
-		return new ResponseEntity<Object>(new ApiResponse("Deleted Sucessfully", true),
-				HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	public Client dtoToClient(ClientDto clientDto) {
