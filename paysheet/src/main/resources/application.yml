@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 server:
   port : 8080
-=======
 
->>>>>>> 584b750135f190d8f44be30d7637a490158a2a3e
+
 
 spring:
   data:
