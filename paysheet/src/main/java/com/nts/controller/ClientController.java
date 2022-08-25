@@ -46,7 +46,8 @@ public class ClientController {
 	@Validated(OnCreate.class)
 	public ResponseEntity<Object> createClient(@Valid @RequestBody ClientDto clientDto) {
 		logger.info("Client Controller | Create Client API");
-		return clientService.createClient(clientDto);
+		return new ResponseEntity<Object>(clientService.createClient(clientDto), HttpStatus.CREATED);
+
 	}
 
 	// UPDATE
@@ -61,7 +62,7 @@ public class ClientController {
 	public ResponseEntity<Object> updateClient(@Valid @RequestBody ClientDto clientDto, @PathVariable String id) {
 		logger.info("Client Controller | Update client API");
 
-		return clientService.updateClient(clientDto, id);
+		return ResponseEntity.ok(clientService.updateClient(clientDto, id));
 	}
 
 	// GETALLTASKS&SINGLETASK

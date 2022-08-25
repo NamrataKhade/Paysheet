@@ -70,6 +70,11 @@ public class ClientServiceImpl implements ClientService {
 			client.setClientName(clientDto.getClientName());
 			client.setClientCode(clientDto.getClientCode());
 			client.setClientDetail(clientDto.getClientDetail());
+			client.setAddress(clientDto.getAddress());
+			client.setCountry(clientDto.getCountry());
+			client.setState(clientDto.getState());
+			client.setCity(clientDto.getCity());
+			client.setPincode(clientDto.getPincode());
 			Client save = this.clientRepository.save(client);
 			modelMapper.map(save, ClientDto.class);
 			return new ResponseEntity<Object>(new Response("Update Client Success", true), HttpStatus.OK);
@@ -114,7 +119,7 @@ public class ClientServiceImpl implements ClientService {
 			this.clientRepository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Client is Not", "id", id));
 		}
-		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.OK);
 	}
 
 	public Client dtoToClient(ClientDto clientDto) {

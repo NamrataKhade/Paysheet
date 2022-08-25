@@ -25,6 +25,16 @@ public class Client {
 
 	private String clientDetail;
 
+	private String Address;
+
+	private String Country;
+
+	private String State;
+
+	private String City;
+
+	private String Pincode;
+
 	@CreationTimestamp
 	@Column(updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")

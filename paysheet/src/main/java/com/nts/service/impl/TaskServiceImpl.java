@@ -111,8 +111,7 @@ public class TaskServiceImpl implements TaskService {
 			this.taskRepository.findById(taskId)
 					.orElseThrow(() -> new ResourceNotFoundException("Task is Not", "id", taskId));
 		}
-		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true),
-				HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.OK);
 
 	}
 
