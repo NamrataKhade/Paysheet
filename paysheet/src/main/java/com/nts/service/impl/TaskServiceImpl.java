@@ -112,7 +112,7 @@ public class TaskServiceImpl implements TaskService {
 					.orElseThrow(() -> new ResourceNotFoundException("Task is Not", "id", taskId));
 		}
 		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true),
-				HttpStatus.INTERNAL_SERVER_ERROR);
+				HttpStatus.OK);
 
 	}
 

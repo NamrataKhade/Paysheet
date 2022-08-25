@@ -120,7 +120,7 @@ public class ClientServiceImpl implements ClientService {
 			this.clientRepository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Client is Not", "id", id));
 		}
-		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.OK);
 	}
 
 	public Client dtoToClient(ClientDto clientDto) {

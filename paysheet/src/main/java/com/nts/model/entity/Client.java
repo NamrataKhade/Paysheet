@@ -14,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-@Document
+@Document(collection = "client")
+
 public class Client {
 	@Id
 	private String id;
@@ -26,13 +27,13 @@ public class Client {
 	private String clientDetail;
 
 	private String Address;
-	
+
 	private String Country;
-	
+
 	private String State;
-	
+
 	private String City;
-	
+
 	private String Pincode;
 
 	@CreationTimestamp
