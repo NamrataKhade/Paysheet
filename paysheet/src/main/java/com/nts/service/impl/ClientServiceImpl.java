@@ -70,6 +70,12 @@ public class ClientServiceImpl implements ClientService {
 			client.setClientName(clientDto.getClientName());
 			client.setClientCode(clientDto.getClientCode());
 			client.setClientDetail(clientDto.getClientDetail());
+			client.setAddress(clientDto.getAddress());
+			client.setCountry(clientDto.getCountry());
+			client.setState(clientDto.getState());
+			client.setCity(clientDto.getCity());
+			client.setPincode(clientDto.getPincode());
+
 			Client save = this.clientRepository.save(client);
 			modelMapper.map(save, ClientDto.class);
 			return new ResponseEntity<Object>(new Response("Update Client Success", true), HttpStatus.OK);

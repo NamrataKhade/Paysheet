@@ -29,6 +29,21 @@ public class ClientDto {
 	@NotEmpty
 	private String clientDetail;
 
+	@NotEmpty
+	private String Address;
+
+	@NotEmpty
+	private String Country;
+
+	@NotEmpty
+	private String State;
+
+	@NotEmpty
+	private String City;
+
+	@NotEmpty
+	private String Pincode;
+
 	@CreationTimestamp
 	@Column(updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")

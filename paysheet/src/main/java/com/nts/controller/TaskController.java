@@ -46,7 +46,7 @@ public class TaskController {
 	@Validated(OnCreate.class)
 	public ResponseEntity<Object> createTask(@Valid @RequestBody TaskDto taskDto) {
 		logger.debug("Tasks Controller | Create Tasks API");
-		return taskService.createTask(taskDto);
+		return new ResponseEntity<Object>(taskService.createTask(taskDto), HttpStatus.CREATED);
 	}
 
 	// UPDATE
@@ -60,7 +60,7 @@ public class TaskController {
 	@Validated(OnCreate.class)
 	public ResponseEntity<Object> updateTask(@Valid @RequestBody TaskDto taskDto, @PathVariable String taskId) {
 		logger.info("Tasks Controller | Update Tasks API");
-		return taskService.updateTask(taskDto, taskId);
+		return new ResponseEntity<Object>(taskService.updateTask(taskDto, taskId), HttpStatus.OK);
 	}
 
 	// GETALLTASKS&SINGLETASK
