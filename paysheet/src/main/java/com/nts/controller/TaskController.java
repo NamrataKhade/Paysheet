@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nts.model.dto.TaskDto;
 import com.nts.model.response.PaginationResponse;
 import com.nts.service.impl.TaskServiceImpl;
+import com.nts.validatorgroups.OnCreate;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -31,24 +37,41 @@ public class TaskController {
 
 	// CREATE
 	@PostMapping()
-	public ResponseEntity<Object> createEmployee(@Valid @RequestBody TaskDto taskDto) {
-		logger.info("Tasks Controller | Create Tasks API");
-		TaskDto createTask = this.taskService.createTask(taskDto);
-		return new ResponseEntity<>(createTask, HttpStatus.CREATED);
+	@ApiOperation(value = "Create Task", nickname = "CreateTask")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
 
-		// return tasksService.createTasks(tasks);
+	@Validated(OnCreate.class)
+	public ResponseEntity<Object> createTask(@Valid @RequestBody TaskDto taskDto) {
+		logger.debug("Tasks Controller | Create Tasks API");
+		return new ResponseEntity<Object>(taskService.createTask(taskDto), HttpStatus.CREATED);
 	}
 
 	// UPDATE
 	@PutMapping("/{taskId}")
-	public ResponseEntity<TaskDto> updateTask(@Valid @RequestBody TaskDto task, @PathVariable String taskId) {
+	@ApiOperation(value = "Create Task", nickname = "CreateTask")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
+
+	@Validated(OnCreate.class)
+	public ResponseEntity<Object> updateTask(@Valid @RequestBody TaskDto taskDto, @PathVariable String taskId) {
 		logger.info("Tasks Controller | Update Tasks API");
-		TaskDto updatedTask = this.taskService.updateTask(task, taskId);
-		return ResponseEntity.ok(updatedTask);
+		return new ResponseEntity<Object>(taskService.updateTask(taskDto, taskId), HttpStatus.OK);
 	}
 
 	// GETALLTASKS&SINGLETASK
 	@GetMapping()
+	@ApiOperation(value = "Get Task", nickname = "Gettask")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
+
+	@Validated(OnCreate.class)
 	public ResponseEntity<Object> getAllTask(@RequestParam(name = "taskId", required = false) String taskId,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "1000", required = false) Integer pageSize,
@@ -66,10 +89,16 @@ public class TaskController {
 
 	// DELETE
 	@DeleteMapping("/{taskId}")
-	public ResponseEntity<com.nts.model.response.ApiResponse> deleteTasks(@PathVariable String taskId) {
-		this.taskService.deleteTask(taskId);
-		return new ResponseEntity<com.nts.model.response.ApiResponse>(
-				new com.nts.model.response.ApiResponse("Employee successfully deleted", true), HttpStatus.OK);
-	}
+	@ApiOperation(value = "Delete  Task", nickname = "Deletetask")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
 
+	@Validated(OnCreate.class)
+	public Object deleteTask(@PathVariable String taskId) {
+		logger.debug("TaskController | Delete Task API");
+		return taskService.deleteTask(taskId);
+
+	}
 }

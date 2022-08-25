@@ -1,5 +1,6 @@
 package com.nts.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ import com.nts.exception.ResourceNotFoundException;
 import com.nts.model.dto.ClientDto;
 import com.nts.model.entity.Client;
 import com.nts.model.response.PaginationResponse;
+import com.nts.model.response.Response;
 import com.nts.repository.ClientRepository;
 import com.nts.service.ClientService;
 
@@ -34,35 +39,49 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		return new User("admin", "password", new ArrayList<>());
+
 	}
 
 	@Override
-	public ClientDto createClient(ClientDto clientDto) {
+	public ResponseEntity<Object> createClient(ClientDto clientDto) {
 		logger.debug("ClientServiceImpl | Create Client Invoked...");
-		Client client = this.dtoToClient(clientDto);
-		Client createClient = this.clientRepository.save(client);
-		return this.clientToDto(createClient);
-
+		try {
+			if (clientDto.getId() != null) {
+				logger.info("ClientServiceImpl | Client Is already there");
+				throw new ResourceNotFoundException("Client is alredy", "id", clientDto.getId());
+			}
+			Client client = this.modelMapper.map(clientDto, Client.class);
+			Client createClient = this.clientRepository.save(client);
+			this.modelMapper.map(createClient, clientDto);
+			return new ResponseEntity<Object>(new Response("Create Client", true), HttpStatus.CREATED);
+		} catch (Exception e) {
+			logger.error("ClentServiceImpl | Client Is already there");
+			throw new ResourceNotFoundException("Client is already", "id", clientDto.getId());
+		}
 	}
 
 	@Override
-	public ClientDto updateClient(ClientDto clientDto, String id) {
-		Client client = this.clientRepository.findById(id).orElse(null);
-		client.setClientName(clientDto.getClientName());
-		client.setClientCode(clientDto.getClientCode());
-		client.setClientDetail(clientDto.getClientDetail());
-		client.setAddress(clientDto.getAddress());
-		client.setCountry(clientDto.getCountry());
-		client.setState(clientDto.getState());
-		client.setCity(clientDto.getCity());
-		client.setPincode(clientDto.getPincode());
-
-		Client save = this.clientRepository.save(client);
-
-		ClientDto clientToDto = this.clientToDto(save);
-		return clientToDto;
+	public ResponseEntity<Object> updateClient(ClientDto clientDto, String id) {
+		try {
+			logger.info("ClientServiceImpl | Update Client");
+			Client client = clientRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Client is Not", "ClientId", id));
+			client.setClientName(clientDto.getClientName());
+			client.setClientCode(clientDto.getClientCode());
+			client.setClientDetail(clientDto.getClientDetail());
+			client.setAddress(clientDto.getAddress());
+			client.setCountry(clientDto.getCountry());
+			client.setState(clientDto.getState());
+			client.setCity(clientDto.getCity());
+			client.setPincode(clientDto.getPincode());
+			Client save = this.clientRepository.save(client);
+			modelMapper.map(save, ClientDto.class);
+			return new ResponseEntity<Object>(new Response("Update Client Success", true), HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error("PermissionServiceImpl | Something wrong in update Client");
+			return new ResponseEntity<Object>(new Response("Somting Wrong", true), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@Override
@@ -76,7 +95,6 @@ public class ClientServiceImpl implements ClientService {
 	public PaginationResponse getAllClient(Integer pageNumber, Integer pageSize, String sortBy, String id) {
 		Pageable pageable = PageRequest.of(pageNumber, pageSize, org.springframework.data.domain.Sort.by(sortBy));
 		Page<Client> clients = this.clientRepository.findAll(pageable);
-
 		List<Client> allClients = clients.getContent();
 		List<Object> clientDtos = allClients.stream().map(client -> this.modelMapper.map(client, ClientDto.class))
 				.collect(Collectors.toList());
@@ -91,23 +109,26 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	@Override
-	public void deleteClient(String id) {
-		Client client = this.clientRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Client", "id", "id"));
-		this.clientRepository.delete(client);
+	public ResponseEntity<Object> deleteClient(String id) {
+		try {
+			logger.info("ClientServiceImpl | Delete Client of specific clientId");
+			clientRepository.findById(id).orElseThrow();
+			this.clientRepository.deleteById(id);
+		} catch (Exception e) {
+			logger.error("ClientServiceImpl | Somting wrong in deleting Client");
+			this.clientRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Client is Not", "id", id));
+		}
+		return new ResponseEntity<Object>(new Response("Deleted Sucessfully", true), HttpStatus.OK);
 	}
 
 	public Client dtoToClient(ClientDto clientDto) {
 		Client client = this.modelMapper.map(clientDto, Client.class);
-
 		return client;
 	}
 
 	public ClientDto clientToDto(Client client) {
 		ClientDto clientDto = this.modelMapper.map(client, ClientDto.class);
-
 		return clientDto;
-
 	}
-
 }

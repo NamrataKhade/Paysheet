@@ -1,6 +1,7 @@
 package com.nts.model.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.nts.model.ProjectRoles;
 
 import lombok.Data;
 
@@ -34,13 +36,12 @@ public class Projects {
 	@NotEmpty
 	private String manager;
 
-	@NotEmpty
-	private String roles;
-
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date startDate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date endDate;
+
+	private List<ProjectRoles> roles;
 
 }

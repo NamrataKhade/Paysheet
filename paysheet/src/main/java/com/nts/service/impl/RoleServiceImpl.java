@@ -12,14 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nts.exception.ResourceNotFoundException;
-import com.nts.model.dto.EmployeeDto;
 import com.nts.model.dto.RoleDto;
-import com.nts.model.entity.Employee;
 import com.nts.model.entity.Role;
 import com.nts.repository.RoleRepository;
 import com.nts.service.RoleService;
@@ -34,11 +30,6 @@ public class RoleServiceImpl implements RoleService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
-	}
 
 	@Override
 	public RoleDto createRole(Role role) {
@@ -85,7 +76,6 @@ public class RoleServiceImpl implements RoleService {
 		return response;
 	}
 
-	
 	@Override
 	public RoleDto updateRole(RoleDto roleDto, String roleId) {
 		logger.debug("RolesServiceImpl: updateRole: Update a Role");
@@ -93,7 +83,7 @@ public class RoleServiceImpl implements RoleService {
 				.orElseThrow(() -> new ResourceNotFoundException("Role", "Id", roleId));
 		role.setRoleName(roleDto.getRoleName());
 		role.setStatus(roleDto.getStatus());
-		role.setPermission(roleDto.getPermission());		
+		role.setPermissions(roleDto.getPermissions());
 		Role updatedRole = this.rolesRepository.save(role);
 		RoleDto roleToDto = this.entityToModelMapping(updatedRole);
 		return roleToDto;
@@ -114,4 +104,5 @@ public class RoleServiceImpl implements RoleService {
 	public RoleDto entityToModelMapping(Role role) {
 		return this.modelMapper.map(role, RoleDto.class);
 	}
+
 }

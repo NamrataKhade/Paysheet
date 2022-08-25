@@ -7,7 +7,6 @@ import lombok.Data;
 
 @Data
 @Document
-
 public class Permission {
 
 	@Id

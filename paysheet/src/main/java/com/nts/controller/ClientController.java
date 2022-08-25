@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nts.model.dto.ClientDto;
 import com.nts.model.response.PaginationResponse;
 import com.nts.service.impl.ClientServiceImpl;
+import com.nts.validatorgroups.OnCreate;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/client")
@@ -31,24 +37,43 @@ public class ClientController {
 
 	// CREATE
 	@PostMapping()
+	@ApiOperation(value = "Create Client", nickname = "CreateClient")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
+
+	@Validated(OnCreate.class)
 	public ResponseEntity<Object> createClient(@Valid @RequestBody ClientDto clientDto) {
 		logger.info("Client Controller | Create Client API");
-		ClientDto createClient = this.clientService.createClient(clientDto);
-		return new ResponseEntity<>(createClient, HttpStatus.CREATED);
+		return new ResponseEntity<Object>(clientService.createClient(clientDto), HttpStatus.CREATED);
 
-		// return tasksService.createTasks(tasks);
 	}
 
 	// UPDATE
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> updateClient(@Valid @RequestBody ClientDto client, @PathVariable String id) {
+	@ApiOperation(value = "Update Client", nickname = "UpdateClient")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
+
+	@Validated(OnCreate.class)
+	public ResponseEntity<Object> updateClient(@Valid @RequestBody ClientDto clientDto, @PathVariable String id) {
 		logger.info("Client Controller | Update client API");
-		ClientDto updatedClient = this.clientService.updateClient(client, id);
-		return ResponseEntity.ok(updatedClient);
+
+		return ResponseEntity.ok(clientService.updateClient(clientDto, id));
 	}
 
 	// GETALLTASKS&SINGLETASK
 	@GetMapping()
+	@ApiOperation(value = "Get Client", nickname = "GetClient")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
+
+	@Validated(OnCreate.class)
 	public ResponseEntity<Object> getAllClient(@RequestParam(name = "id", required = false) String id,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "1000", required = false) Integer pageSize,
@@ -66,10 +91,17 @@ public class ClientController {
 
 	// DELETE
 	@DeleteMapping("/{id}")
-	public ResponseEntity<com.nts.model.response.ApiResponse> deleteClient(@PathVariable String id) {
-		this.clientService.deleteClient(id);
-		return new ResponseEntity<com.nts.model.response.ApiResponse>(
-				new com.nts.model.response.ApiResponse("Client successfully deleted", true), HttpStatus.OK);
+	@ApiOperation(value = "Delete  Client", nickname = "DeleteClient")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully create schema"),
+			@ApiResponse(code = 404, message = "Schema not found"),
+			@ApiResponse(code = 400, message = "Missing or invalid request body"),
+			@ApiResponse(code = 500, message = "Internal error") })
+
+	@Validated(OnCreate.class)
+	public ResponseEntity<Object> deleteClient(@PathVariable String id) {
+		logger.debug("ClientController | Delete Client API");
+		return clientService.deleteClient(id);
+
 	}
 
 }

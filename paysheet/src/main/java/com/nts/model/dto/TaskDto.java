@@ -1,5 +1,6 @@
 package com.nts.model.dto;
 
+import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -7,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class TaskDto {
-
+	@Id
 	private String taskId;
 
 	@NotEmpty
@@ -17,6 +18,7 @@ public class TaskDto {
 	@NotEmpty
 	private String status;
 
+	@NotEmpty
 	private String projectId;
 
 }

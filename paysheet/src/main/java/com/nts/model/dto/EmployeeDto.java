@@ -2,10 +2,14 @@ package com.nts.model.dto;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -42,5 +46,14 @@ public class EmployeeDto {
 	@NotEmpty
 	@Size(min = 10, max = 10, message = "Incurrect mobile number... please try again...!")
 	private String mobileNumber;
+
+	@CreationTimestamp
+	@Column(updatable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")
+	private Date createdOn;
+
+	@UpdateTimestamp
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+05:30")
+	private Date lastUpdatedOn;
 
 }

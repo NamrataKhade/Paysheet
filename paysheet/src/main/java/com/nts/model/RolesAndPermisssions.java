@@ -12,6 +12,3 @@ public class RolesAndPermisssions {
 	private Set<String> permissions;
 
 }
-	
-	
-

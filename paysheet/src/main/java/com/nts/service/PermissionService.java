@@ -1,15 +1,12 @@
 package com.nts.service;
 
-import java.util.List;
-
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import com.nts.model.dto.PermissionDto;
 import com.nts.model.response.PermissionResponce;
 
 @Service
-public interface PermissionService extends UserDetailsService {
+public interface PermissionService  {
 
 	public PermissionDto createPermission(PermissionDto permissionDto);
 
